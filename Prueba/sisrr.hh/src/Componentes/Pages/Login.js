@@ -1,9 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import './login.css';
 
 const Login = () => {
+  const navigate = useNavigate();
   const containerRef = useRef(null);
   const [isSignUp, setIsSignUp] = useState(false);
   const [signInError, setSignInError] = useState(false);
@@ -34,6 +36,9 @@ const Login = () => {
     // Aquí debes agregar la lógica de inicio de sesión
     console.log('Iniciar sesión con:', user);
     setSignInError(false); // Reinicia el estado de error después de la acción exitosa
+
+    // Redirecciona a la página de inicio después de un inicio de sesión exitoso
+    navigate('/inicio');
   };
 
   const handleSignUp = (e) => {

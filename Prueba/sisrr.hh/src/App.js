@@ -1,18 +1,18 @@
-import react from "react";
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Componentes/Pages/Login.js';
+import Inicio from './Componentes/Pages/Inicio.js';
 
 function App() {
   return (
     <>
-     <BrowserRouter>
+      <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Login/>} />//PONGO LA RUTA DEL LOGIN ASI, PARA QUE APAREZCA EN EL BUSCADOS EL NOMBRES DEL MISMO
+          <Route path="/" element={<Login />} /> {/* Ruta por defecto */}
+          <Route path="/inicio" element={<Inicio />} />
         </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
     </>
-   
-    
   );
 }
 
