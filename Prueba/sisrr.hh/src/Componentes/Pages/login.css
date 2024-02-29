@@ -91,8 +91,8 @@ a {
 
 button {
   border-radius: 20px;
-  border: 1px solid #5538fc;
-  background: #5538fc;
+  border: 1px solid #7f24f5;
+  background: #7f24f5;
   color: #fff;
   font-size: 12px;
   font-weight: bold;
@@ -103,8 +103,8 @@ button {
 }
 
 #lila {
-  background: #be4bdb;
-  border: 1px solid #be4bdb;
+  background: #a504ce;
+  border: 1px solid #270e2e;
 }
 
 button:active {
@@ -238,7 +238,7 @@ body{
   margin: 0;
   padding: 0;
   /* Establece el video de fondo */
-  background-image: url('../Images/Imagen\ 2.jpg');
+  background-image: url('../Images/Imagen\ 3.jpg');
   /* Ajusta el video de fondo para que cubra toda la pantalla */
   background-size: cover;
   /* Centra el video de fondo */
