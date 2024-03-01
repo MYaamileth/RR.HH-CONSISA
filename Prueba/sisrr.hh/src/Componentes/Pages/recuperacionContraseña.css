@@ -1,26 +1,26 @@
 /* Estilos del formulario */
 .formulario {
+    font-family: "Poppins", sans-serif;
     width: 600px;
     margin: 100px auto; /* Ajusta el margen superior e inferior para centrar verticalmente */
-    border: 3px solid #ccc;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #fff;
+    text-align: center; /* Centra el contenido del contenedor */
+    border-radius: 10px;
 }
 
-
-input[type="email"] {
-    width: 100%; /* Ancho del input */
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px; /* Cambia el radio de borde del input */
-    font-size: 16px; /* Cambia el tamaño de la fuente */
-    color: #333; /* Cambia el color del texto */
-    background-color: #f9f9f9; /* Cambia el color de fondo */
-}
+.formulario input {
+    background: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+    border-radius: 10px;
+  }
+  
 
 body {
     font-family: sans-serif;
@@ -32,19 +32,27 @@ body {
 }
 
 .btn {
-    border: none; 
-    color: rgb(255, 255, 255); 
-    padding: 14px 28px; 
-    cursor: pointer; 
-    border-radius: 5px; 
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 14px 28px;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 20px; /* Ajusta el margen superior para centrar verticalmente el botón */
 }
 
 .success {
-    background-color: #46a049; 
-    border: 3px solid #04AA6D;
+    background-color: #5e46a0;
 } 
 
 .success:hover {
-    background-color: #46a049; 
+    background-color: #a44aee;
     color: white;
 }
+
+.error-icon {
+    color: rgb(81, 0, 148); /* Cambia el color a tu preferencia, por ejemplo, rojo */
+  }
+  
+  .error-message {
+    color: rgb(174, 33, 255); /* Cambia el color del mensaje de error */
+  }

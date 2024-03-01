@@ -1,28 +1,23 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import './recuperacionContraseña.css'
-
+import './recuperacionContraseña.css';
 
 function RecuperacionContraseña() {
-  const [correo, setCorreo] = useState(''); // Estado para almacenar el valor del correo electrónico
-  const [correoError, setCorreoError] = useState(false); // Estado para controlar si hay un error en el campo de correo electrónico
-
-
-
+  const [correo, setCorreo] = useState('');
+  const [correoError, setCorreoError] = useState(false);
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Evita que se recargue la página al enviar el formulario
+    e.preventDefault();
+
     if (!correo.trim()) {
-      // Verifica si el campo de correo está vacío o solo contiene espacios en blanco
-      setCorreoError(true); // Activa el estado de error si el campo está vacío
+      setCorreoError(true);
       return;
     }
-    // Aquí agregarías la lógica para enviar la solicitud de recuperación de contraseña
+
     console.log('Correo electrónico:', correo);
-    // Limpia el campo de correo después de enviar el formulario
     setCorreo('');
-    setCorreoError(false); // Reinicia el estado de error después de una acción exitosa
+    setCorreoError(false);
   };
 
   return (
@@ -30,19 +25,21 @@ function RecuperacionContraseña() {
       <h1>Recuperación de Contraseña</h1>
       <p>Ingrese su correo electrónico para recibir notificación:</p>
       <form onSubmit={handleSubmit}>
-        <input
-          type="email"
+      <input
+          type="email"  // Cambiado a "email" para un campo de correo electrónico
           name="correo"
           placeholder="Correo electrónico"
           value={correo}
           onChange={(e) => {
             setCorreo(e.target.value);
-            setCorreoError(false); // Reinicia el estado de error al escribir en el input
-          } } />
-        {/* Muestra el icono de advertencia si hay un error en el campo de correo electrónico */}
+            setCorreoError(false);
+          }}
+      />
+
         {correoError && (
           <div className="error-icon">
             <FontAwesomeIcon icon={faExclamationTriangle} />
+            <span className="error-message"> Ingrese un correo electrónico válido </span>
           </div>
         )}
         <br />
