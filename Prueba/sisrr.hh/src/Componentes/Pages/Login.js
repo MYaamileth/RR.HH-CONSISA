@@ -1,11 +1,15 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import './login.css';
 
+
+
 const Login = () => {
   const navigate = useNavigate();
+
   const containerRef = useRef(null);
   const [isSignUp, setIsSignUp] = useState(false);
   const [signInError, setSignInError] = useState(false);
@@ -25,6 +29,15 @@ const Login = () => {
       setIsSignUp(false);
     });
   }, []);
+
+
+
+  const handleRecuperacionContraseña = (e) => {
+    e.preventDefault();
+    navigate('/RecuperacionContraseña');
+  };
+
+
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -66,7 +79,7 @@ const Login = () => {
               <FontAwesomeIcon icon={faExclamationTriangle} />
             </div>
           )}
-          <a href="#">¿Olvidó su contraseña?</a>
+          <a href="#" onClick={handleRecuperacionContraseña}>¿Olvidó su contraseña?</a>
           <button type="submit">Iniciar sesión</button>
         </form>
       </div>
