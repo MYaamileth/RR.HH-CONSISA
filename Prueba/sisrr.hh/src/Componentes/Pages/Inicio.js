@@ -1,42 +1,14 @@
-import React, { useState } from 'react';
-import './inicio.css';
+import React, { useRef, useEffect, useState } from 'react';
+import Dashboard from './Dashboard.js'; // Asegúrate de tener la ruta correcta al componente
 
-const Home = () => {
-  const [showSolicitudesMenu, setShowSolicitudesMenu] = useState(false);
-
-  const handleSolicitudesClick = () => {
-    setShowSolicitudesMenu(!showSolicitudesMenu);
-  };
-
+const Inicio = () => {
   return (
-    <div className="-container">
-      <div className="home-header">
-        <div className="home-logo">CONSISA</div>
-        <div className="home-menu">
-          <div className="home-menu-item">Inicio</div>
-          <div className="home-menu-item">Grupo Consisa</div>
-          <div className="home-menu-item">Tecnología Innovación. Experiencia</div>
-          <div className="home-menu-item" onClick={handleSolicitudesClick}>
-            Vacaciones
-            {showSolicitudesMenu && (
-              <div className="solicitudes-menu">
-                <div className="solicitudes-menu-item">Mis Solicitudes</div>
-                <div className="solicitudes-menu-item">Boton para ver</div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="home-button">Boton de inicio</div>
-      </div>
-      <div className="home-welcome">BIENVENIDO USUARIO</div>
-      <div className="home-user">
-        <div className="home-user-name">Daniel Pineda</div>
-        <div className="home-user-profile">
-          <img src="https://example.com/profile-image.jpg" alt="Profile" />
-        </div>
-      </div>
+    <div>
+      <h1>¡Bienvenido Administrador!</h1>
+      <Dashboard/>
+      {/* Otro contenido de tu página de inicio */}
     </div>
   );
-};
+}
 
-export default Home;
+export default Inicio;
