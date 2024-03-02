@@ -13,11 +13,11 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard"> {/* Removed dark mode class */}
+    <div className="dashboard">
       <nav className={`sidebar ${isSidebarClosed ? 'close' : ''}`}>
         <header>
           <div className="image-text">
-            <i class='bx bxs-doughnut-chart logo'></i>
+            <i className='bx bxs-doughnut-chart logo'></i>
 
             <div className="text logo-text">
               <span className="name">CONSISA</span>
@@ -36,6 +36,7 @@ const Dashboard = () => {
             </li>
 
             <ul className="menu-links">
+
               <li className="nav-link">
                 <a href="#">
                   <i className='bx bx-home-alt icon' ></i>
@@ -43,11 +44,114 @@ const Dashboard = () => {
                 </a>
               </li>
 
-              <li className="nav-link">
+
+              <li className="nav-link with-submenu">
                 <a href="#">
-                  <i class='bx bx-street-view icon'></i>
+                  <i className='bx bx-street-view icon'></i>
                   <span className="text nav-text">Empleados</span>
                 </a>
+                {/* Submenu for Empleados */}
+                {isSidebarClosed ? null : (
+                  <ul className="Empleados">
+                    <li>
+                      <a href="#">
+                        <i class='bx bxs-briefcase-alt-2 icon' ></i>
+                        <span className="text nav-text">   Administrar Empleados</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class='bx bxs-user-rectangle icon'></i>
+                        <span className="text nav-text">   Administrar Usuarios</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class='bx bxs-file icon' ></i>
+                        <span className="text nav-text">   Contratos</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class='bx bx-current-location icon'></i>
+                        <span className="text nav-text">   Departamentos</span>
+                      </a>
+                    </li>
+                    {/* Add more submenu items as needed */}
+                  </ul>
+                )}
+              </li>
+
+
+              <li className="nav-link with-submenu">
+                <a href="#">
+                  <i class='bx bxs-folder-open icon' ></i>
+                  <span className="text nav-text">Planillas</span>
+                </a>
+                {/* Submenu for Planillas */}
+                {isSidebarClosed ? null : (
+                  <ul className="Planilla">
+                    <li>
+                      <a href="#">
+                        <i class='bx bxs-calendar-plus icon' ></i>
+                        <span className="text nav-text">   Crear Planilla</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                      <i class='bx bxs-calendar-event icon' ></i>
+                        <span className="text nav-text">   Historial de Planillas</span>
+                      </a>
+                    </li>
+                    {/* Add more submenu items as needed */}
+                  </ul>
+                )}
+              </li>
+
+
+              <li className="nav-link">
+                <a href="#">
+                  <i class='bx bxs-bell icon' ></i>
+                  <span className="text nav-text">Buzón</span>
+                </a>
+              </li>
+
+
+              <li className="nav-link with-submenu">
+                <a href="#">
+                  <i class='bx bx-shield-quarter icon'></i>
+                  <span className="text nav-text">Seguridad</span>
+                </a>
+                {/* Submenu for Seguridad */}
+                {isSidebarClosed ? null : (
+                  <ul className="Seguridad">
+                    <li>
+                      <a href="#">
+                        <i class='bx bxs-data icon' ></i>
+                        <span className="text nav-text">Parámetros del Sistemas</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class='bx bx-code-block icon' ></i>                   
+                        <span className="text nav-text">Parámetros de Seguridad</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class='bx bxs-log-in icon' ></i>
+                        <span className="text nav-text">Acceso al Sistema</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class='bx bxs-user-detail icon' ></i>
+                        <span className="text nav-text">Bitácora</span>
+                      </a>
+                    </li>
+                    {/* Add more submenu items as needed */}
+                  </ul>
+                )}
               </li>
 
               {/* Add more menu items as needed */}
@@ -73,3 +177,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
