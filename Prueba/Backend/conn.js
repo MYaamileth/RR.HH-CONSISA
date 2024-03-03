@@ -5,7 +5,7 @@ const db=mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '1234proyecto_',
-    database: 'prueba',
+    database: 'consisa',
 
 })
 //si tienen problemas de authentication con la base de datos, usen el codigo de abajo en su linea de comandos

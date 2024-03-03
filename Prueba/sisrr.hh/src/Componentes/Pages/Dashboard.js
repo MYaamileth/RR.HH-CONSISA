@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import './dashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+
   const [isSidebarClosed, setSidebarClosed] = useState(false);
+
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSidebarClosed(!isSidebarClosed);
@@ -10,6 +14,16 @@ const Dashboard = () => {
 
   const openSearch = () => {
     setSidebarClosed(false);
+  };
+
+ 
+
+  const handleMantenimientoUsuario = (e) => {
+
+    e.preventDefault();
+
+    navigate('/MantenimientoUsuario');
+
   };
 
   return (
@@ -59,12 +73,16 @@ const Dashboard = () => {
                         <span className="text nav-text">   Administrar Empleados</span>
                       </a>
                     </li>
+
+
                     <li>
                       <a href="#">
                         <i class='bx bxs-user-rectangle icon'></i>
-                        <span className="text nav-text">   Administrar Usuarios</span>
+                        <span className="text nav-text" onClick={handleMantenimientoUsuario}>   Administrar Usuarios</span>
                       </a>
                     </li>
+
+
                     <li>
                       <a href="#">
                         <i class='bx bxs-file icon' ></i>
@@ -162,7 +180,7 @@ const Dashboard = () => {
             <li>
               <a href="#">
                 <i className='bx bx-log-out icon'></i>
-                <span className="text nav-text">Cerrar Sesión</span>
+                <span className="text nav-text">Cerrar Sesión</span> 
               </a>
             </li>
           </div>

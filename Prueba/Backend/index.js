@@ -22,8 +22,8 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 // Traer datos de la tabla tbl_ms_usuario
-app.get("/tbl_ms_usuario", (req, res) => {
-  const query = "SELECT * FROM tbl_ms_usuario";
+app.get("/TraerUsuarios", (req, res) => {
+  const query = 'SELECT * FROM tbl_ms_usuario';
   db.query(query, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
