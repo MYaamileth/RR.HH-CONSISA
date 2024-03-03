@@ -3,9 +3,20 @@ import axios from 'axios';
 import './mantenimientoUsuario.css';
 
 function Usuarios() {
+  // Variable de estado para almacenar la lista de usuarios
   const [usuarios, setUsuarios] = useState([]);
+  // Variables de estado para la entrada de nuevo usuario
+  const [nuevoUsuario, setNuevoUsuario] = useState({
+    nombreUsuario: '',
+    contraseña: '',
+    nombreCompleto: '',
+    rol: '',
+    estado: false
+  });
+  // Variable de estado para indicar si se está cargando la información
   const [cargando, setCargando] = useState(false);
 
+  // Obtiene datos de la API al montar el componente
   useEffect(() => {
     const fetchData = async () => {
       setCargando(true);
@@ -16,6 +27,36 @@ function Usuarios() {
     fetchData();
   }, []);
 
+  // Maneja el cambio de entrada para los campos del nuevo usuario
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === 'checkbox' ? checked : value;
+    setNuevoUsuario({ ...nuevoUsuario, [name]: inputValue });
+  };
+
+  // Maneja el envío del formulario para crear un nuevo usuario
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Envía una solicitud POST para crear un nuevo usuario
+      await axios.post("http://localhost:3000/CrearUsuario", nuevoUsuario);
+      // Obtiene la lista actualizada de usuarios
+      const response = await axios.get("http://localhost:3000/TraerUsuarios");
+      setUsuarios(response.data);
+      // Limpia los campos de entrada después de la creación exitosa
+      setNuevoUsuario({
+        nombreUsuario: '',
+        contraseña: '',
+        nombreCompleto: '',
+        rol: '',
+        estado: false
+      });
+    } catch (error) {
+      console.error("Error al crear usuario:", error);
+    }
+  };
+
+  // Renderiza los elementos JSX
   return (
     <div className="container">
       <header>
@@ -29,6 +70,7 @@ function Usuarios() {
       <main>
         <section className="busqueda">
           <h2>Buscar por ID de Empleado</h2>
+          {/* Es probable que falte un campo de entrada para buscar por ID aquí */}
         </section>
         {cargando ? (
           <div className="cargando">Cargando...</div>
@@ -67,7 +109,6 @@ function Usuarios() {
                     <td>{usuario.creado_por}</td>
                     <td>{usuario.fecha_creacion}</td>
                     <td>{usuario.modificado}</td>
-
                   </tr>
                 ))}
               </tbody>
@@ -75,10 +116,53 @@ function Usuarios() {
           </section>
         )}
         <section className="acciones">
-          <button>Nuevo Usuario</button>
-          <button>Editar Usuario</button>
-          <button>Eliminar Usuario</button>
-          <button>Ver Empleados</button>
+          {/* Inputs para encapsular los datos para el nuevo usuario */}
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="nombreUsuario">Nombre de Usuario:</label>
+            <input
+              type="text"
+              id="nombreUsuario"
+              name="nombreUsuario"
+              value={nuevoUsuario.nombreUsuario}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="contraseña">Contraseña:</label>
+            <input
+              type="password"
+              id="contraseña"
+              name="contraseña"
+              value={nuevoUsuario.contraseña}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="nombreCompleto">Nombre Completo:</label>
+            <input
+              type="text"
+              id="nombreCompleto"
+              name="nombreCompleto"
+              value={nuevoUsuario.nombreCompleto}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="rol">Rol:</label>
+            <select
+              id="rol"
+              name="rol"
+              value={nuevoUsuario.rol}
+              onChange={handleInputChange}
+            >
+              <option value="">Seleccionar Rol</option>
+              <option value="Administrador">Administrador</option>
+              <option value="Empleado">Empleado</option>
+            </select>
+            <label htmlFor="estado">Estado:</label>
+            <input
+              type="checkbox"
+              id="estado"
+              name="estado"
+              checked={nuevoUsuario.estado}
+              onChange={handleInputChange}
+            />
+            <button type="submit">Crear Usuario</button>
+          </form>
         </section>
       </main>
     </div>

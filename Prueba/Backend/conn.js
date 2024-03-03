@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
    
    })
    
-   //traemos los atos de la tabla que deseamos
+   //traemos los datos de la tabla que deseamos
    app.get("/tbl_empleado", (req, res) => {
    const query = "select * from tbl_empleado" 
        db.query(query, (err,data) => {
