@@ -16,14 +16,9 @@ const Dashboard = () => {
     setSidebarClosed(false);
   };
 
- 
-
   const handleMantenimientoUsuario = (e) => {
-
     e.preventDefault();
-
     navigate('/MantenimientoUsuario');
-
   };
 
   return (
