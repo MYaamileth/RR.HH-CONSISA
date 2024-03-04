@@ -10,7 +10,7 @@ const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "1234proyecto_",
-  database: "prueba",
+  database: "consisa",
 });
 
 app.use(express.json())
@@ -46,42 +46,8 @@ app.get("/", (req, res) => {
   res.json("HOOOLISSS, HABLA EL BACKEND");
 });
 
-
-
-// BD DE PRUEBA, LA RUTA DEBE DE PASAR AL SIGUIENTE APP.POST
+// Mandar datos del empleado a la tabla tbl_ms_usuario.  
 app.post("/creacionUsuario", (req, res) => {
-  //DESPUES DEL IGUAL TIENE QUE IR IGUAL A COMO ESTA ESCRITO EL CAMPO EN LA BASE DE DATOS
-  const { Nombre_empleado, Correo } = req.body;
-    const query = `INSERT INTO tbl_empleado (Nombre_empleado, Correo) VALUES (?,?)`;
-
-      db.query(query, [Nombre_empleado, Correo], (err, data) => {
-        if (err) {
-          return res.status(500).json({ error: err.message });
-        }
-        return res.json({ message: "Usuario creado exitosamente" });
-      });
-  });
-
-
-// BD DE PRUEBA, LA RUTA DEBE DE PASAR AL SIGUIENTE APP.get
-app.get("/traerUsuarios", (req, res) => {
-  const query = 'SELECT * FROM tbl_empleado';
-  db.query(query, (err, data) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    return res.json(data);
-  });
-});
-
-
-
-
-
-
-// Mandar datos del empleado a la tabla tbl_ms_usuario.  AQUI DEBE DE IR LA RUTA DE  creacionUsuario
-app.post("/", (req, res) => {
-  //DESPUES DEL IGUAL TIENE QUE IR IGUAL A COMO ESTA ESCRITO EL CAMPO EN LA BASE DE DATOS
     const Id_estado= req.body.Id_estado;
     const Id_rol = req.body.Id_rol;
     const Id_puesto= req.body.Id_puesto;
@@ -110,13 +76,17 @@ app.post("/", (req, res) => {
 
 
 // Traer datos de la tabla tbl_ms_usuario
-app.get("/Usuario", (req, res) => {
+app.get("/traerUsuarios", (req, res) => {
   const query = 'SELECT * FROM tbl_ms_usuario';
   db.query(query, (err, data) => {
-    if (err) return res.json(err);
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
     return res.json(data);
   });
 });
+
+
 
 /*Actualizar usuario,recibe de parametro el id del usuario.*/
 app.put("/tbl_ms_usuario/:id", (req, res) => {

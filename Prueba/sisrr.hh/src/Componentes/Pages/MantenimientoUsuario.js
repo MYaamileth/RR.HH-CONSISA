@@ -5,6 +5,15 @@ import "./mantenimientoUsuario.css";
 
 const MantenimientoUsuario = () => {
   const [cargando, setCargando] = useState(false);
+   //Trae valores capturados por los campos del frontend
+   useEffect(() => {
+    const traerUsuarios = async () => {
+      const response = await axios.get("http://localhost:3001/traerUsuarios");
+      setLista(response.data);
+    };
+  
+    traerUsuarios();
+  }, []);
   /*const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
@@ -39,9 +48,7 @@ const MantenimientoUsuario = () => {
   const [fecha_Creacion, setFecha_Creacion] = useState("");
   const [fecha_Modificacion, setFecha_Modificacion] = useState("");
   
- //CAMPOS PARA CARGAR LA INFORMACION DE PRUEBA(DESPUES SE ELIMINARAN)
-  const [Nombre_empleado, setNombre_empleado] = useState("");
-  const [Correo, setCorreo] = useState("");
+
 
   const [usuarioLista, setLista]=useState([]);//Lita para trer usuarios
 
@@ -52,8 +59,7 @@ const MantenimientoUsuario = () => {
   //Envio de valores capturados por los campos del frontend
   const creacionUsuario =()=>{
     axios.post("http://localhost:3001/creacionUsuario", {
-      Nombre_empleado: Nombre_empleado,
-      Correo: Correo,
+   
 
       //LOS CAMPOS ANTERIORES DESPUES DE DEBEN ELIMINAR DESPUES
       Id_Estado: estado,
@@ -71,19 +77,14 @@ const MantenimientoUsuario = () => {
       Fecha_creacion: fecha_Creacion,
       Fecha_modificacion: fecha_Modificacion
     }). then(()=> {
-      traerUsuarios(); //cada que se guarde un usuario se enlistara en la tabla
+      //traerUsuarios(); //cada que se guarde un usuario se enlistara en la tabla
       alert("Usuario registrado")
     });
   }
 
-  //Trae valores capturados por los campos del frontend
-  const traerUsuarios =()=>{
-    axios.get("http://localhost:3001/traerUsuarios"). then((response)=> {
-      setLista(response.data);//VENDRAN TODOS LOS DATOS DESDE LA API
-    });
-  }
+ 
 
-  traerUsuarios(); //Desde que se ingresa al apartado, traera los usuarios
+  //traerUsuarios(); //Desde que se ingresa al apartado, traera los usuarios
 
 //EN LOS CAMPOS DE USUARIO Y EMAIL, CA,BIAR EL SET UNA VEZ QUE FUNIONE, PUES ESTAN LOS DE PRUEBA
   return (
@@ -105,7 +106,7 @@ const MantenimientoUsuario = () => {
                   />
                   <input
                     onChange={(event) =>{//el "event" guada lo que se ingreso en el campo
-                      setNombre_empleado(event.target.value); //con el "target" nosotros estamos diciendo que queremos el valor y se lo asignamo a "setusuario"
+                      setUsuario(event.target.value); //con el "target" nosotros estamos diciendo que queremos el valor y se lo asignamo a "setusuario"
                     }}
                     type="text"
                     placeholder="Usuario"
@@ -133,7 +134,7 @@ const MantenimientoUsuario = () => {
                     />
                     <input
                       onChange={(event) =>{//el "event" guada lo que se ingreso en el campo
-                        setCorreo(event.target.value); //con el "target" nosotros estamos diciendo que queremos el valor y se lo asignamo a "setusuario"
+                        setCorreo_Electronico(event.target.value); //con el "target" nosotros estamos diciendo que queremos el valor y se lo asignamo a "setusuario"
                       }}
                       type="text"
                       placeholder="Email"
@@ -198,7 +199,25 @@ const MantenimientoUsuario = () => {
                   </tr>
                 </thead>
                 <tbody>
-                 
+                {usuarioLista.map((val, key) => {
+                    return   <tr>
+                            <th>{val.Id_Estado}</th>
+                            <th>{val.Id_rol}</th>
+                            <th>{val.Id_puesto}</th>
+                            <th>{val.Usuario}</th>
+                            <th>{val.Nombre_Completo_Usuario}</th>
+                            <th>{val.Contraseña}</th>
+                            <th>{val.Fecha_Ultima_Conexion}</th>
+                            <th>{val.Primer_ingreso}</th>
+                            <th>{val.Correo_electronico}</th>
+                            <th>{val.Fecha_vencimiento}</th>
+                            <th>{val.Creado_por}</th>
+                            <th>{val.Modificado_por}</th>
+                            <th>{val.Fecha_creacion}</th>
+                            <th>{val.Fecha_modificacion}</th>
+                            </tr>
+                   })
+                  }
                     
                 </tbody>
               </table>
