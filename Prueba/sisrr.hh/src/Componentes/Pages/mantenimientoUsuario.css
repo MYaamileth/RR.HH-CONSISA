@@ -7,7 +7,7 @@
 }
 
 [data-maintenance-usuario="true"] .form-container {
-  /* Agrega estilos según tus necesidades */
+ 
   background: #ffffff;
   display: flex;
   flex-direction: column;
@@ -116,7 +116,9 @@
   /* Estilos para la tabla */
   [data-maintenance-usuario="true"] .tabla-usuarios {
     margin-top: 20px;
-    font-size: 14px;;
+    font-size: 14px;
+    max-height: 400px;/*Limita la altura de la tabla para evitar que se pase al contenedor de los campos*/
+ /* overflow-y: auto;  Permite el scroll vertical si la tabla excede la altura */
   }
   
   [data-maintenance-usuario="true"] .table {
