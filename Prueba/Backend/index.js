@@ -16,28 +16,32 @@ const db = mysql.createConnection({
 app.use(express.json())
 app.use(cors())
 
-// Manejo de eventos de conexión a la base de datos, backend y errores al momento de conectar la base de datos.
+// Manejo de eventos de conexión a la base de datos
 db.connect((err) => {
   if (err) {
-    console.error('Error al conectar a la base de datos:', err);
+    console.error("Error al conectar a la base de datos:", err.message);
     return;
   }
-  console.log('Conexión exitosa a la base de datos');
+  console.log("Conexión exitosa a la base de datos");
 });
 
-db.on('error', (err) => {
-  console.error('Error en la conexión a la base de datos:', err);
+
+// Manejo de errores en la conexión
+db.on("error", (err) => {
+  console.error("Error en la conexión a la base de datos:", err.message);
 });
 
-app.listen(8800, () => {
-  console.log("Conectado al backend en el puerto 8800");
+// Puerto del servidor
+app.listen(3001, () => {
+  console.log("Servidor backend conectado en el puerto 3001");
 });
+
 
 
 // Si tienen problemas de autenticación con la base de datos, usen el siguiente código en su línea de comandos:
 // ALTER USER "root"@"localhost" IDENTIFIED WITH mysql_native_password BY "1234proyecto_";
 
-// Ruta para el home
+// Rutas
 app.get("/", (req, res) => {
   res.json("HOOOLISSS, HABLA EL BACKEND");
 });
@@ -47,14 +51,15 @@ app.get("/", (req, res) => {
 // BD DE PRUEBA, LA RUTA DEBE DE PASAR AL SIGUIENTE APP.POST
 app.post("/creacionUsuario", (req, res) => {
   //DESPUES DEL IGUAL TIENE QUE IR IGUAL A COMO ESTA ESCRITO EL CAMPO EN LA BASE DE DATOS
-    const Nombre_empleado= req.body.Nombre_empleado;
-    const Correo = req.body.Correo;
+  const { Nombre_empleado, Correo } = req.body;
     const query = `INSERT INTO tbl_empleado (Nombre_empleado, Correo) VALUES (?,?)`;
 
       db.query(query, [Nombre_empleado, Correo], (err, data) => {
-      if (err) return res.json(err);
-      return res.json("USUARIO INSERTADO CORRECTAMENTE");
-    });
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        return res.json({ message: "Usuario creado exitosamente" });
+      });
   });
 
 
@@ -62,7 +67,9 @@ app.post("/creacionUsuario", (req, res) => {
 app.get("/traerUsuarios", (req, res) => {
   const query = 'SELECT * FROM tbl_empleado';
   db.query(query, (err, data) => {
-    if (err) return res.json(err);
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
     return res.json(data);
   });
 });
@@ -115,7 +122,7 @@ app.get("/Usuario", (req, res) => {
 app.put("/tbl_ms_usuario/:id", (req, res) => {
   const id = req.params.id; // Obtiene el ID del usuario a modificar de la ruta
 
-  const nombreUsuario = req.body.Usuario;
+  const usuario = req.body.Usuario;
   const nombreCompletoUsuario = req.body.Nombre_Completo_Usuario;
   const contraseña = req.body.Contraseña;
   const fecha_Ultima_Conexion = req.body.Fecha_Ultima_Conexion;
@@ -182,4 +189,21 @@ app.delete("/tbl_ms_usuario/:id", (req, res) => {
 });
 
 
+// OBTENER USUARIO POR ID
+/*
+app.get("/usuarios/:id", (req, res) => {
+  const id = req.params.id;
 
+  const query = `SELECT * FROM tbl_empleado WHERE id = ?`;
+
+  db.query(query, [id], (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (data.length === 0) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    return res.json(data[0]);
+  });
+});
+ */

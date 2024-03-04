@@ -51,7 +51,7 @@ const MantenimientoUsuario = () => {
 
   //Envio de valores capturados por los campos del frontend
   const creacionUsuario =()=>{
-    axios.post("http://localhost:8800/creacionUsuario", {
+    axios.post("http://localhost:3001/creacionUsuario", {
       Nombre_empleado: Nombre_empleado,
       Correo: Correo,
 
@@ -78,7 +78,7 @@ const MantenimientoUsuario = () => {
 
   //Trae valores capturados por los campos del frontend
   const traerUsuarios =()=>{
-    axios.get("http://localhost:8800/traerUsuarios"). then((response)=> {
+    axios.get("http://localhost:3001/traerUsuarios"). then((response)=> {
       setLista(response.data);//VENDRAN TODOS LOS DATOS DESDE LA API
     });
   }
@@ -198,13 +198,7 @@ const MantenimientoUsuario = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {usuarioLista.map((val, key) => {
-                    return   <tr>
-                            <th>{val.Correo}</th>
-                            <th>{val.Nombre_empleado}</th>
-                            </tr>
-                   })
-                  }
+                 
                     
                 </tbody>
               </table>
