@@ -3,8 +3,7 @@ import mysql from "mysql";
 import cors from "cors";
 
 const app = express();
-app.use(express.json());
-app.use(cors());
+
 
 // Conexión a la base de datos
 const db = mysql.createConnection({
@@ -14,6 +13,8 @@ const db = mysql.createConnection({
   database: "prueba",
 });
 
+app.use(express.json())
+app.use(cors())
 
 // Manejo de eventos de conexión a la base de datos, backend y errores al momento de conectar la base de datos.
 db.connect((err) => {
