@@ -1,10 +1,115 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './mantenimientoUsuario.css';
+import { Link } from 'react-router-dom';
 
+
+
+//Con el useeffect estoy trayendo todos los datos de la tabla usuario
+const MantenimientoUsuario = ()=>{
+  // Variable de estado para indicar si se está cargando la información
+  const [cargando, setCargando] = useState(false);
+  const [usuarios, setUsuarios] = useState([])
+  useEffect(()=>{ 
+    const fecthAllUsuarios = async () =>{
+      try {
+        const res = await axios.get("http://localhost:8800/Usuario")
+        setUsuarios(res.data);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fecthAllUsuarios()
+  }, [])
+
+  return (
+    <div className="container">
+      {cargando ? (
+        <div className="cargando">Cargando...</div>
+      ) : (
+        <>
+          {/* Header section */}
+          <header>
+            <div className="logo">
+              <img src="Icono.png" alt="Logo Grupo Consisa" />
+            </div>
+            <div className="titulo">
+              <h1>Usuarios</h1>
+            </div>
+          </header>
+
+          {/* Search section */}
+          <main>
+            <section className="busqueda">
+              <h2>Buscar empleado por medio de Id:</h2>
+              <input type="text" placeholder="Ingrese ID de Empleado" />
+            </section>
+
+            {/*TABLA DE REGSITROS*/}
+            <section className="tabla-usuarios">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Usuario</th>
+                    <th>Contraseña</th>
+                    <th>Ultima Fecha de Conexion</th>
+                    <th>Fecha de Primera Conexión</th>
+                    <th>Preguntas Contestadas</th>
+                    <th>Fecha Vencimiento De Contraseña</th>
+                    <th>Creado Por</th>
+                    <th>Fecha de Creación</th>
+                    <th>Modificado Por</th>
+                    <th>Fecha de Modificación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {usuarios.map((usuario) => (
+                    <tr key={usuario.id_usuario}>
+                      <td>{usuario.usuario}</td>
+                      <td>{usuario.nombreCompletoUsuario}</td>
+                      <td>{usuario.contrasena}</td>
+                      <td>{usuario.fecha_Ultima_Conexion}</td>
+                      <td>{usuario.primer_Ingreso}</td>
+                      <td>{usuario.correo_Electronico}</td>
+                      <td>{usuario.fecha_Vencimiento}</td>
+                      <td>{usuario.creado_Por}</td>
+                      <td>{usuario.modificado_Por}</td>
+                      <td>{usuario.fecha_Creacion}</td>
+                      <td>{usuario.fecha_Modificacion}</td>
+                    </tr> 
+                  ))}
+                </tbody>
+              </table>
+            </section>
+
+            {/* BOTONES PARA LA CRUD DE USUARIOS) */}
+            <section className="acciones">
+              <button>
+                <Link> Nuevo usuario</Link>
+              </button>
+              <button>
+                <Link> Editar usuario</Link>
+              </button>
+              <button>
+                <Link> Eliminar usuario</Link>
+              </button>
+              <button>
+                <Link> Revisar usuario</Link>
+              </button>
+              {/* Form and button implementation are missing */}
+            </section>
+          </main>
+        </>
+      )}
+    </div>
+  );
+};
+
+
+export default MantenimientoUsuario
+/*
 function Usuarios() {
-  // Variable de estado para almacenar la lista de usuarios
-  const [usuarios, setUsuarios] = useState([]);
+  
   // Variables de estado para la entrada de nuevo usuario
   const [nuevoUsuario, setNuevoUsuario] = useState({
     nombreUsuario: '',
@@ -18,7 +123,7 @@ function Usuarios() {
 
   // Obtiene datos de la API al montar el componente
   useEffect(() => {
-    const fetchData = async () => {
+    const fecthAllUsuarios= async () => {
       setCargando(true);
       const response = await axios.get("http://localhost:3000/TraerUsuarios");
       setUsuarios(response.data);
@@ -70,7 +175,7 @@ function Usuarios() {
       <main>
         <section className="busqueda">
           <h2>Buscar por ID de Empleado</h2>
-          {/* Es probable que falte un campo de entrada para buscar por ID aquí */}
+          {/* Es probable que falte un campo de entrada para buscar por ID aquí } AQUI
         </section>
         {cargando ? (
           <div className="cargando">Cargando...</div>
@@ -116,7 +221,7 @@ function Usuarios() {
           </section>
         )}
         <section className="acciones">
-          {/* Inputs para encapsular los datos para el nuevo usuario */}
+          {/* Inputs para encapsular los datos para el nuevo usuario }AQUI
           <form onSubmit={handleSubmit}>
             <label htmlFor="nombreUsuario">Nombre de Usuario:</label>
             <input
@@ -169,4 +274,4 @@ function Usuarios() {
   );
 }
 
-export default Usuarios;
+export default Usuarios;*/

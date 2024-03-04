@@ -1,6 +1,6 @@
 import express from "express";
 import mysql from "mysql";
-
+import cors from "cors";
 
 const app = express();
 
@@ -38,8 +38,9 @@ app.get("/", (req, res) => {
 
 
 app.use(express.json());
+app.use(cors());
 // Traer datos de la tabla tbl_ms_usuario
-app.get("/TraerUsuarios", (req, res) => {
+app.get("/Usuario", (req, res) => {
   const query = 'SELECT * FROM tbl_ms_usuario';
   db.query(query, (err, data) => {
     if (err) return res.json(err);
@@ -58,7 +59,7 @@ app.post("/tbl_ms_usuario", (req, res) => {
   const primer_Ingreso= req.body.Primer_ingreso;
   const correo_Electronico= req.body.Correo_electronico;
   const fecha_Vencimiento= req.body.Fecha_vencimiento;
-  const token= req.body.Token;
+//  const token= req.body.Token;
   const creado_Por= req.body.Creado_por;
   const modificado_Por= req.body.Modificado_por;
   const fecha_Creacion= req.body.Fecha_creacion;
@@ -67,8 +68,8 @@ app.post("/tbl_ms_usuario", (req, res) => {
   const query = `INSERT INTO tbl_ms_usuario (Usuario, Nombre_Completo_Usuario, Contraseña,Fecha_Ultima_Conexion,Primer_ingreso,Correo_electronico,
     Fecha_vencimiento,Token,Creado_por,Modificado_por,Fecha_creacion,Fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`;
 
-  db.query(query, [usuario, nombreCompletoUsuario,contraseña,fecha_Ultima_Conexion,primer_Ingreso,correo_Electronico,fecha_Vencimiento,
-    token,creado_Por, modificado_Por,fecha_Creacion, fecha_Modificacion], (err, data) => {
+    db.query(query, [usuario, nombreCompletoUsuario,contraseña,fecha_Ultima_Conexion,primer_Ingreso,correo_Electronico,fecha_Vencimiento, 
+      creado_Por, modificado_Por,fecha_Creacion, fecha_Modificacion], (err, data) => {
     if (err) return res.json(err);
     return res.json("SE PUEDE MANDAR CORRECTAMENTE");
   });
