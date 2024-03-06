@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './dashboard.css';
 import { useNavigate } from 'react-router-dom';
+import MantenimientoUsuario from './MantenimientoUsuario'; // Importa el nuevo componente
 
 const Dashboard = () => {
-
   const [isSidebarClosed, setSidebarClosed] = useState(false);
+  const [showMantenimientoUsuario, setShowMantenimientoUsuario] = useState(false); // Nuevo estado para controlar la visibilidad del formulario
 
   const navigate = useNavigate();
 
@@ -18,7 +19,7 @@ const Dashboard = () => {
 
   const handleMantenimientoUsuario = (e) => {
     e.preventDefault();
-    navigate('/MantenimientoUsuario');
+    setShowMantenimientoUsuario(true); // Al hacer clic en "Administrar Usuarios", mostrar el formulario
   };
 
   return (
@@ -45,14 +46,12 @@ const Dashboard = () => {
             </li>
 
             <ul className="menu-links">
-
               <li className="nav-link">
                 <a href="#">
                   <i className='bx bx-home-alt icon' ></i>
                   <span className="text nav-text">Inicio</span>
                 </a>
               </li>
-
 
               <li className="nav-link with-submenu">
                 <a href="#">
@@ -64,29 +63,25 @@ const Dashboard = () => {
                   <ul className="Empleados">
                     <li>
                       <a href="#">
-                        <i class='bx bxs-briefcase-alt-2 icon' ></i>
+                        <i className='bx bxs-briefcase-alt-2 icon' ></i>
                         <span className="text nav-text">   Administrar Empleados</span>
                       </a>
                     </li>
-
-
                     <li>
                       <a href="#">
-                        <i class='bx bxs-user-rectangle icon'></i>
+                        <i className='bx bxs-user-rectangle icon'></i>
                         <span className="text nav-text" onClick={handleMantenimientoUsuario}>   Administrar Usuarios</span>
                       </a>
                     </li>
-
-
                     <li>
                       <a href="#">
-                        <i class='bx bxs-file icon' ></i>
+                        <i className='bx bxs-file icon' ></i>
                         <span className="text nav-text">   Contratos</span>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i class='bx bx-current-location icon'></i>
+                        <i className='bx bx-current-location icon'></i>
                         <span className="text nav-text">   Departamentos</span>
                       </a>
                     </li>
@@ -95,10 +90,9 @@ const Dashboard = () => {
                 )}
               </li>
 
-
               <li className="nav-link with-submenu">
                 <a href="#">
-                  <i class='bx bxs-folder-open icon' ></i>
+                  <i className='bx bxs-folder-open icon' ></i>
                   <span className="text nav-text">Planillas</span>
                 </a>
                 {/* Submenu for Planillas */}
@@ -106,13 +100,13 @@ const Dashboard = () => {
                   <ul className="Planilla">
                     <li>
                       <a href="#">
-                        <i class='bx bxs-calendar-plus icon' ></i>
+                        <i className='bx bxs-calendar-plus icon' ></i>
                         <span className="text nav-text">   Crear Planilla</span>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                      <i class='bx bxs-calendar-event icon' ></i>
+                        <i className='bx bxs-calendar-event icon' ></i>
                         <span className="text nav-text">   Historial de Planillas</span>
                       </a>
                     </li>
@@ -121,18 +115,16 @@ const Dashboard = () => {
                 )}
               </li>
 
-
               <li className="nav-link">
                 <a href="#">
-                  <i class='bx bxs-bell icon' ></i>
+                  <i className='bx bxs-bell icon' ></i>
                   <span className="text nav-text">Buzón</span>
                 </a>
               </li>
 
-
               <li className="nav-link with-submenu">
                 <a href="#">
-                  <i class='bx bx-shield-quarter icon'></i>
+                  <i className='bx bx-shield-quarter icon'></i>
                   <span className="text nav-text">Seguridad</span>
                 </a>
                 {/* Submenu for Seguridad */}
@@ -140,25 +132,25 @@ const Dashboard = () => {
                   <ul className="Seguridad">
                     <li>
                       <a href="#">
-                        <i class='bx bxs-data icon' ></i>
+                        <i className='bx bxs-data icon' ></i>
                         <span className="text nav-text">Parámetros del Sistemas</span>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i class='bx bx-code-block icon' ></i>                   
+                        <i className='bx bx-code-block icon' ></i>                   
                         <span className="text nav-text">Parámetros de Seguridad</span>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i class='bx bxs-log-in icon' ></i>
+                        <i className='bx bxs-log-in icon' ></i>
                         <span className="text nav-text">Acceso al Sistema</span>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i class='bx bxs-user-detail icon' ></i>
+                        <i className='bx bxs-user-detail icon' ></i>
                         <span className="text nav-text">Bitácora</span>
                       </a>
                     </li>
@@ -183,12 +175,13 @@ const Dashboard = () => {
       </nav>
 
       <section className="home">
-        <div className="text">¡Bienvenido Administrador!</div>
+        <div className="text">
+          {/* Mostrar el formulario si showMantenimientoUsuario es true */}
+          {showMantenimientoUsuario && <MantenimientoUsuario />}
+        </div>
       </section>
     </div>
   );
 };
 
 export default Dashboard;
-
-
