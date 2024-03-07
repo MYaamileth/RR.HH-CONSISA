@@ -29,27 +29,36 @@ const Login = () => {
   }, []);
 
 
-
   const handleRecuperacionContraseña = (e) => {
     e.preventDefault();
     navigate('/RecuperacionContraseña');
   };
 
 
-
   const handleSignIn = (e) => {
     e.preventDefault();
     const user = e.target.querySelector('input[name="user"]').value;
+    
+
     if (!user) {
       setSignInError(true);
       return;
     }
+
+    // Validación adicional (opcional):
+    if (/[a-z]/.test(user)) {
+      // Mostrar mensaje de error indicando la necesidad de usar solo mayúsculas
+      return;
+    }
+
+    
     // Aquí debes agregar la lógica de inicio de sesión
     console.log('Iniciar sesión con:', user);
     setSignInError(false); // Reinicia el estado de error después de la acción exitosa
 
     // Redirecciona a la página de inicio después de un inicio de sesión exitoso
     navigate('/inicio');
+    
   };
 
   const handleSignUp = (e) => {
@@ -63,14 +72,23 @@ const Login = () => {
     console.log('Registrar con:', user);
     setSignUpError(false); // Reinicia el estado de error después de la acción exitosa
   };
-
+  
   return (
     <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="container" ref={containerRef}>
       <div className="form-container sign-in-container">
         <form action="#" onSubmit={handleSignIn}>
           <h1>Iniciar Sesión</h1>
-          <span>Utilice su Nombre de Usuario</span>
-          <input type="text" placeholder="Usuario" name="user" onChange={() => setSignInError(false)} required />
+           <span>Utilice su Nombre de Usuario</span>
+           <input type="text" placeholder="Usuario" name="user" onInput={(e) => { 
+           const errorElement = e.target.parentNode.querySelector('.error-message');
+           if (/[a-z]/.test(e.target.value)) { // validacion para permitir solo letras mayusculas
+           errorElement.textContent = 'Solo se permiten letras mayúsculas.';
+           e.target.value = e.target.value.toUpperCase();
+           } else {
+           errorElement.textContent = '';//
+           }
+          }} onChange={() => setSignInError(false)} required />
+          <span className="error-message"></span>
           <input type="password" placeholder="Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required />
           {signInError && (
             <div className="error-icon">
@@ -85,7 +103,7 @@ const Login = () => {
         <form action="#" onSubmit={handleSignUp}>
           <h1>{isSignUp ? 'Registrar' : 'Crear tu cuenta'}</h1>
           <span>Ingrese los siguientes Datos</span>
-          <input type="text" placeholder="Usuario" name="user" onChange={() => setSignUpError(false)} required />
+          <input type="text" placeholder="Usuario" name="user" onInput={(e) => e.target.value = e.target.value.toUpperCase()} required />
           <input type="name" placeholder="Nombre Completo" name="Nombre Completo" onChange={() => setSignUpError(false)} required />
           <input type="email" placeholder="Email" name="Correo" onChange={() => setSignUpError(false)} required />
           <input type="password" placeholder="Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required />
