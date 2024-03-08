@@ -20,6 +20,11 @@ const Dashboard = () => {
   const handleMantenimientoUsuario = (e) => {
     e.preventDefault();
     setShowMantenimientoUsuario(true); // Al hacer clic en "Administrar Usuarios", mostrar el formulario
+
+  };
+
+  const handleCloseMantenimientoUsuario = () => {
+    setShowMantenimientoUsuario(false); // Función para cerrar el componente MantenimientoUsuario
   };
 
   return (
@@ -176,8 +181,8 @@ const Dashboard = () => {
 
       <section className="home">
         <div className="text">
-          {/* Mostrar el formulario si showMantenimientoUsuario es true */}
-          {showMantenimientoUsuario && <MantenimientoUsuario />}
+         {/* Mostrar el formulario si showMantenimientoUsuario es true */}
+         {showMantenimientoUsuario && <MantenimientoUsuario onClose={handleCloseMantenimientoUsuario} />}
         </div>
       </section>
     </div>

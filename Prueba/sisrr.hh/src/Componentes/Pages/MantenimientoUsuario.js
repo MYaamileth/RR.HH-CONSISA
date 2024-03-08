@@ -1,10 +1,11 @@
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./mantenimientoUsuario.css";
 import Swal from 'sweetalert2';
 
-const MantenimientoUsuario = () => {
+const MantenimientoUsuario = ({ onClose }) => {
   const [cargando, setCargando] = useState(false);
    //Trae valores capturados por los campos del frontend
    useEffect(() => {
@@ -207,8 +208,24 @@ const MantenimientoUsuario = () => {
     
 
 
-
-
+    
+    const cerrarComponente = () => {
+      Swal.fire({
+        title: 'Cerrar Ventana',
+        text: '¿Estás seguro de que deseas salir?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          onClose();
+        
+        }
+      });
+    };
 
  
   
@@ -295,7 +312,10 @@ const MantenimientoUsuario = () => {
           <main>
             <section className="formulario">
               <div className="form-container">
+
+              <button onClick={cerrarComponente} className="submit" id="Salir">X</button>
                 <h1>MANTENIMIENTO DE USUARIOS</h1>
+               
                 <p></p>
                 
                 <div className="form-buttons">

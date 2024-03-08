@@ -146,4 +146,14 @@
     background-color: #ad81ff; /* Color de fondo al pasar el cursor */
   }
 
+#Salir{
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgb(228, 104, 104);
+  border: none;
+  color: none;
+  padding: 10px;
+  font-size: 16px;
+}
 
