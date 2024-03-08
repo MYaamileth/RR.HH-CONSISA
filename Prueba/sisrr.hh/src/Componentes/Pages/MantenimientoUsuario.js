@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./mantenimientoUsuario.css";
+import Swal from 'sweetalert2';
 
 const MantenimientoUsuario = () => {
   const [cargando, setCargando] = useState(false);
@@ -10,10 +11,207 @@ const MantenimientoUsuario = () => {
     const traerUsuarios = async () => {
       const response = await axios.get("http://localhost:3001/traerUsuarios");
       setLista(response.data);
+      
     };
   
     traerUsuarios();
   }, []);
+
+
+    //LLamada de pantalla despregable para crear un usuario
+    const pantallaCrear = () => {
+      Swal.fire({
+        title: 'Crear Usuario',
+        html: `
+          <div class="input-container">
+            <input
+              type="text"
+              placeholder="Usuario"
+              class="textbox"
+            />
+            <input
+              type="text"
+              placeholder="Nombre Completo"
+              class="textbox"
+            />
+          </div>
+    
+          <div class="input-container">
+            <div class="flex-row">
+              <input
+                type="text"
+                placeholder="Contraseña"
+                class="textbox"
+              />
+              <input
+                type="text"
+                placeholder="Email"
+                class="textbox"
+              />
+              <div class="checkbox-container">
+                <div class="estado-container">
+                  <label for="estado_usuario">Estado: </label>
+                  <input 
+                    type="checkbox"
+                    id="estado_usuario"
+                    class="input"
+                  />
+                </div>
+                <span class="estado-label">Activo</span>
+              </div>
+            </div>
+          </div>
+    
+          <div class="input-container">
+            <div class="flex-row">
+              <label>
+                Puesto:
+                <select class="inputPuesto">
+                  <option value="administrador">Gerente de IT</option>
+                  <option value="usuario">Administrador de BD</option>
+                  <option value="agregarRol">Agregar Rol</option>
+                </select>
+              </label>
+    
+              <label>
+                Rol:
+                <select class="inputRol">
+                  <option value="administrador">Administrador</option>
+                  <option value="usuario">Usuario</option>
+                  <option value="agregarRol">Agregar Rol</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        `,
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Crear',
+        cancelButtonText: 'Cancelar',
+      }).then(response => {
+        if(response.isConfirmed){
+          creacionUsuario();
+          Swal.fire('Usuario creado con éxito');
+        } else if(response.isDenied){
+          Swal.fire('Información', 'Registro cancelado', 'success')
+        }
+      })
+    };
+    
+
+//Pantalla eliminar usuario
+    const pantallaEditar = () => {
+      Swal.fire({
+        title: 'Editar Usuario',
+        html: `
+          
+            <input
+              type="text"
+              placeholder="Usuario"
+              class="textbox"
+            />
+            <input
+              type="text"
+              placeholder="Nombre Completo"
+              class="textbox"
+            />
+          </div>
+    
+          <div class="input-container">
+            <div class="flex-row">
+              <input
+                type="text"
+                placeholder="Contraseña"
+                class="textbox"
+              />
+              <input
+                type="text"
+                placeholder="Email"
+                class="textbox"
+              />
+              <div class="checkbox-container">
+                <div class="estado-container">
+                  <label for="estado_usuario">Estado: </label>
+                  <input 
+                    type="checkbox"
+                    id="estado_usuario"
+                    class="input"
+                  />
+                </div>
+                <span class="estado-label">Activo</span>
+              </div>
+            </div>
+          </div>
+    
+          <div class="input-container">
+            <div class="flex-row">
+              <label>
+                Puesto:
+                <select class="inputPuesto">
+                  <option value="administrador">Gerente de IT</option>
+                  <option value="usuario">Administrador de BD</option>
+                  <option value="agregarRol">Agregar Rol</option>
+                </select>
+              </label>
+    
+              <label>
+                Rol:
+                <select class="inputRol">
+                  <option value="administrador">Administrador</option>
+                  <option value="usuario">Usuario</option>
+                  <option value="agregarRol">Agregar Rol</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        `,
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Guardar',
+        cancelButtonText: 'Cancelar',
+      }).then(response => {
+        if(response.isConfirmed){
+          //Función para el evio de datos al metodo para editar de la Api.
+          //EditarUsuario();
+          Swal.fire('Usuario editado con éxito');
+        }else if(response.isDenied){
+          Swal.fire('Información','Edición cancelada','success')
+        }
+      })
+    };
+
+
+//Pantalla eliminar usuario
+    const pantallaEliminar = () => {
+      Swal.fire({
+        title: 'Eliminar Usuario',
+        text: '¿Estás seguro de que deseas eliminar este usuario?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Aquí puedes llamar a la función para eliminar el usuario
+          // eliminarUsuario();
+          Swal.fire('Eliminado!', 'El usuario ha sido eliminado.', 'success');
+        }
+      });
+    };
+    
+
+
+
+
+
+ 
+  
   /*const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
@@ -78,7 +276,8 @@ const MantenimientoUsuario = () => {
       Fecha_modificacion: fecha_Modificacion
     }). then(()=> {
       //traerUsuarios(); //cada que se guarde un usuario se enlistara en la tabla
-      alert("Usuario registrado")
+      
+      //alert("Usuario registrado")
     });
   }
 
@@ -98,92 +297,15 @@ const MantenimientoUsuario = () => {
               <div className="form-container">
                 <h1>MANTENIMIENTO DE USUARIOS</h1>
                 <p></p>
-                <div className="input-container">
-                  <input 
-                    type="text"
-                    placeholder="ID Usuario"
-                    className="textbox"
-                  />
-                  <input
-                    onChange={(event) =>{//el "event" guada lo que se ingreso en el campo
-                      setUsuario(event.target.value); //con el "target" nosotros estamos diciendo que queremos el valor y se lo asignamo a "setusuario"
-                    }}
-                    type="text"
-                    placeholder="Usuario"
-                    className="textbox"
-                  />
-                  <input
-                    onChange={(event) =>{//el "event" guada lo que se ingreso en el campo
-                      setNombreCompletoUsuario(event.target.value); //con el "target" nosotros estamos diciendo que queremos el valor y se lo asignamo a "setusuario"
-                    }}
-                    type="text"
-                    placeholder="Nombre Completo"
-                    className="textbox"
-                  />
-                </div>
-
-                <div className="input-container">
-                  <div className="flex-row">
-                    <input
-                      onChange={(event) =>{//el "event" guada lo que se ingreso en el campo
-                        setContraseña(event.target.value); //con el "target" nosotros estamos diciendo que queremos el valor y se lo asignamo a "setusuario"
-                      }}
-                      type="text"
-                      placeholder="Contraseña"
-                      className="textbox"
-                    />
-                    <input
-                      onChange={(event) =>{//el "event" guada lo que se ingreso en el campo
-                        setCorreo_Electronico(event.target.value); //con el "target" nosotros estamos diciendo que queremos el valor y se lo asignamo a "setusuario"
-                      }}
-                      type="text"
-                      placeholder="Email"
-                      className="textbox"
-                    />
-                    <div className="checkbox-container">
-                      <div className="estado-container">
-                        <label htmlFor="estado_usuario">Estado: </label>
-                        <input 
-                          onChange={(event) =>{//el "event" guada lo que se ingreso en el campo
-                            setEstado(event.target.value); //con el "target" nosotros estamos diciendo que queremos el valor y se lo asignamo a "setusuario"
-                          }}
-                          type="checkbox"
-                          id="estado_usuario"
-                          className="input"
-                        />
-                      </div>
-                      <span className="estado-label">Activo</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="input-container">
-                  <div className="flex-row">
-                    <label>
-                      Puesto:
-                      <select className="inputPuesto"  onChange={(event) => setPuesto(event.target.value)}>
-                        <option value="administrador">Gerente de IT</option>
-                        <option value="usuario">Administrador de BD</option>
-                        <option value="agregarRol">Agregar Rol</option>
-                      </select>
-                    </label>
-
-                    <label>
-                      Rol:
-                      <select className="inputRol " onChange={(event) => setRoles(event.target.value)} >
-                        <option value="administrador">Administrador</option>
-                        <option value="usuario">Usuario</option>
-                        <option value="agregarRol">Agregar Rol</option>
-                      </select>
-                    </label>
-                  </div>
-                </div>
-  
+                
                 <div className="form-buttons">
-                  <button onClick={creacionUsuario} className="submit">Crear</button>
-                  <button className="submit">Editar</button>
-                  <button className="submit">Eliminar</button>
-                  <button className="submit">Revisar</button>
+                  <button onClick={pantallaCrear} className="submit">Crear</button>
+                  <button onClick={pantallaEditar} className="submit">Editar</button>
+                  <button onClick={pantallaEliminar} className="submit">Eliminar</button>
+                
+                
+                {/* <button className="submit">Revisar</button>  */}
+              
                 </div>
               </div>
             </section>
