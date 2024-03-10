@@ -1,4 +1,3 @@
-
 [data-maintenance-usuario="true"] .maintenance-container {
   display: flex;
   align-items: center;
@@ -6,92 +5,134 @@
   height: 100vh;
 }
 
-[data-maintenance-usuario="true"] .form-container {
- 
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  padding: 0 50px;
-  height: 80%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  border-radius: 20px;
-  z-index: 1;
-  margin-top: 50px;
-  background: linear-gradient(to right, #ffffff, #afa0f3) no-repeat 0 0 / cover;
-}
-
-[data-maintenance-usuario="true"] .form-container .input-container input[type="text"] {
-  /* Styles for textboxes */
+/*Estilos de Input*/
+.custom-input {
   width: 200px;
-  margin: 10px 5px 5px; /* Modificado el margen superior */
+  margin: 5px 5px 5px; /* Modificado el margen superior */
   padding: 5px 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-[data-maintenance-usuario="true"] .form-container .input-container {
-  flex-wrap: wrap;
+/*Estilos de Label*/
+.custom-label {
+  font-size: 12px;
+  margin-left: 20px;
+  margin-right: 5px;
+  flex-grow: 1; /* Permite que el label se expanda según su contenido */
+}
+
+/* Estilos básicos del select */
+.custom-select {
+  width: 150px; /* Ancho del select */
+  padding: 5px; /* Espacio interno alrededor del contenido */
+  font-size: 12px; /* Tamaño de la fuente */
+  border: 1px solid #ccc; /* Borde del select */
+  border-radius: 5px; /* Esquinas redondeadas */
+  outline: none; /* Elimina el resaltado del borde al hacer clic */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el select */
+}
+
+.custom-select:focus {
+  border-color: #7125ff; /* Color del borde al estar enfocado */
+}
+
+.custom-select::after {
+  content: '\25BC'; /* Código de la flecha hacia abajo */
+  position: absolute; /* Posición absoluta en relación con el select */
+  top: 50%; /* Alinea verticalmente el ícono en el centro */
+  right: 10px; /* Alinea el ícono a la derecha del select */
+  transform: translateY(-50%); /* Ajusta la posición vertical del ícono */
+  pointer-events: none; /* Evita que el ícono interfiera con el clic en el select */
+}
+
+
+/*Estilos del Formulario*/
+
+[data-maintenance-usuario="true"] .formulario-container {
+  margin-top: 60px;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column; /* Establece la dirección principal como columna */
+  width: auto;
+  height: 100%; /* Establece la altura al 100% para que se expanda */
+}
+
+[data-maintenance-usuario="true"] .formulario {
+  margin-top: 60px;
+  margin-bottom: auto;
+  display: flex;
+  flex: 1;
+  width: auto;
+  height: 300px;
+  min-height: 500px;
+  max-height: 800px;
+  flex-grow: 1; /* Hace que el formulario se expanda para ocupar el espacio disponible */
+  flex-direction: column; /* Establece la dirección principal como columna */
+}
+
+/*Alineación de Barra de Busqueda y Botones*/
+[data-maintenance-usuario="true"] .form-buttons {
+  display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  align-items: center;
 }
 
-[data-maintenance-usuario="true"] .form-container .inputRol {
-  width: 82%;
-  margin: 5px;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+/*Barra de Busqueda*/
+[data-maintenance-usuario="true"] .search-container {
+  position: relative;
 }
 
-[data-maintenance-usuario="true"] .form-container .inputPuesto{
-  width: 70%;
-  margin: 5px;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+[data-maintenance-usuario="true"] .search-input {
+  padding-left: 30px;
+  border-radius: 10px;
+  width: 400px;
+  height: 40px;
 }
 
-[data-maintenance-usuario="true"] .form-container .checkbox-container {
+[data-maintenance-usuario="true"] .search-input:focus {
+  outline: none;
+  border-color: #9d00ff;
+}
+
+[data-maintenance-usuario="true"] .icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 18px;
+}
+
+
+
+/* Estilos del contenedor principal */
+.input-container {
+  margin-top: 20px;
   display: flex;
   align-items: center;
-  margin-bottom: 0px;
 }
 
-[data-maintenance-usuario="true"] .input-container .flex-row {
-  display: flex; /* Arrange elements inline */
-  align-items: center; /* Align vertically */
-  }
+/* Estilos de los contenedores secundarios */
+.checkbox-container,
+.flex-row {
+  display: flex;
+  align-items: center;
+}
 
-  [data-maintenance-usuario="true"] .role-select-container {
-  margin-left: 10px; /* Adjust spacing as needed */
-  }
+.estado-container {
+  display: flex;
+  align-items: center;
+  margin-right: 0px; /* Ajusta el margen entre el estado y el checkbox */
+}
 
-  [data-maintenance-usuario="true"] label {
-    font-size: 12px;
-    margin-right: 8px;
-    margin-left: 8px;
-  }
-
-  .checkbox-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-right: 12px;
-  }
-  
-  .estado-container {
-    display: flex;
-    align-items: center;
-    margin-right: 2px; /* Ajusta el margen entre el estado y el checkbox */
-  }
-  
-  .estado-label {
-    margin-left: 5px; /* Ajusta el margen entre el label y el texto */
-    font-size: 12px; /* Ajusta el tamaño de la fuente */
-    color: #333; /* Ajusta el color del texto */
-  }
+.estado-label {
+  margin-right: 15px;
+  margin-left: 5px; /* Ajusta el margen entre el label y el texto */
+  font-size: 12px; /* Ajusta el tamaño de la fuente */
+  flex-grow: 1; /* Permite que el label se expanda según su contenido */
+  flex-shrink: 0; /* Evita que el label se encoja más allá de su contenido */
+}
 
 
   /*Estilos de Botones*/
@@ -109,28 +150,41 @@
   }  
 
   .submit:hover {
-    background-color: #8743d4;
+    background-color: #9660d4;
     color: white;
-}
+  }
+
+  /* Estilos específicos para los botones con iconos */
+  .icon-button {
+    background-color: #7300f7; /* Color de fondo para estos botones específicos */
+    color: white; /* Color del texto del botón */
+    width: 150px;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .icon-button:hover {
+    background-color: #9660d4; /* Cambia el color de fondo al pasar el mouse */
+  }
 
   /* Estilos para la tabla */
   [data-maintenance-usuario="true"] .tabla-usuarios {
-    margin-top: 20px;
+    margin-top: 0px;
     font-size: 14px;
-    max-height: 400px;/*Limita la altura de la tabla para evitar que se pase al contenedor de los campos*/
+    max-height: 90px;/*Limita la altura de la tabla para evitar que se pase al contenedor de los campos*/
  /* overflow-y: auto;  Permite el scroll vertical si la tabla excede la altura */
   }
   
   [data-maintenance-usuario="true"] .table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 800px;
+    margin-top: 50px;
   }
   
   [data-maintenance-usuario="true"] .table th,
-  .table td {
-    padding: 10px;
-    text-align: left;
+  .table td{
+    text-align: center;
+    min-width: 150px;
+    padding: 5px;
   }
   
   [data-maintenance-usuario="true"] .table thead th {
@@ -156,4 +210,36 @@
   padding: 10px;
   font-size: 16px;
 }
+
+
+
+/*Otros estilos relacionados con la pantalla*/
+/*[data-maintenance-usuario="true"] .form-container .checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+}*/
+
+/*
+[data-maintenance-usuario="true"] .input-container .flex-row {
+  display: flex; 
+  align-items: center; 
+  }
+*/
+
+/*
+  [data-maintenance-usuario="true"] .role-select-container {
+  margin-left: 10px; 
+  }
+*/
+
+/*
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+    margin-right: 12px;
+  }
+*/
+
 
