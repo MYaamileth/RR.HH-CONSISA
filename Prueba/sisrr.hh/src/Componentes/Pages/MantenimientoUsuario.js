@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 
 const MantenimientoUsuario = ({ onClose }) => {
   const [cargando, setCargando] = useState(false);
+  
    //Trae valores capturados por los campos del frontend
    useEffect(() => {
     const traerUsuarios = async () => {
@@ -176,7 +177,7 @@ const MantenimientoUsuario = ({ onClose }) => {
         cancelButtonText: 'Cancelar',
       }).then(response => {
         if(response.isConfirmed){
-          //Función para el evio de datos al metodo para editar de la Api.
+          //Función para el envio de datos al metodo para editar de la Api.
           //EditarUsuario();
           Swal.fire('Usuario editado con éxito');
         }else if(response.isDenied){
@@ -186,11 +187,11 @@ const MantenimientoUsuario = ({ onClose }) => {
     };
 
 
-//Pantalla eliminar usuario
+  //Pantalla eliminar usuario
     const pantallaEliminar = () => {
       Swal.fire({
         title: 'Eliminar Usuario',
-        text: '¿Estás seguro de que deseas eliminar este usuario?',
+        text: '¿Está seguro de eliminar este usuario?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -201,7 +202,7 @@ const MantenimientoUsuario = ({ onClose }) => {
         if (result.isConfirmed) {
           // Aquí puedes llamar a la función para eliminar el usuario
           // eliminarUsuario();
-          Swal.fire('Eliminado!', 'El usuario ha sido eliminado.', 'success');
+          Swal.fire('¡Eliminado!', 'Usuario Eliminado con Éxito', 'success');
         }
       });
     };
@@ -322,10 +323,7 @@ const MantenimientoUsuario = ({ onClose }) => {
                   <button onClick={pantallaCrear} className="submit">Crear</button>
                   <button onClick={pantallaEditar} className="submit">Editar</button>
                   <button onClick={pantallaEliminar} className="submit">Eliminar</button>
-                
-                
-                {/* <button className="submit">Revisar</button>  */}
-              
+                              
                 </div>
               </div>
             </section>
