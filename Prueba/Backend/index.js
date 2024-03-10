@@ -9,7 +9,7 @@ const app = express();
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "ranger2718",
+  password: "1234proyecto_",
   database: "consisa",
 });
 
@@ -87,23 +87,24 @@ app.get("/traerUsuarios", (req, res) => {
 });
 
 
-
-/*Actualizar usuario,recibe de parametro el id del usuario.*/
-app.put("/tbl_ms_usuario/:id", (req, res) => {
+//modificar que actualice por nombre e vez de id
+/*Actualizar usuario,recibe  el nombre del usuario.*/
+app.put("/actualizarUsuario", (req, res) => {
   const id = req.params.id; // Obtiene el ID del usuario a modificar de la ruta
 
-  const usuario = req.body.Usuario;
-  const nombreCompletoUsuario = req.body.Nombre_Completo_Usuario;
-  const contraseña = req.body.Contraseña;
-  const fecha_Ultima_Conexion = req.body.Fecha_Ultima_Conexion;
-  const primer_Ingreso = req.body.Primer_ingreso;
-  const correo_Electronico = req.body.Correo_electronico;
-  const fecha_Vencimiento = req.body.Fecha_vencimiento;
-  const token = req.body.Token;
-  const creado_Por = req.body.Creado_por;
-  const modificado_Por = req.body.Modificado_por;
-  const fecha_Creacion = req.body.Fecha_creacion;
-  const fecha_Modificacion = req.body.Fecha_modificacion;
+  const Usuario= req.body.Usuario;
+  const Nombre_Completo_Usuario= req.body.Nombre_Completo_Usuario;
+  const Contraseña= req.body.Contraseña;
+  const Fecha_Ultima_Conexion= req.body.Fecha_Ultima_Conexion;
+  const Primer_ingreso= req.body.Primer_ingreso;
+  const Correo_electronico= req.body.Correo_electronico;
+  const Fecha_vencimiento= req.body.Fecha_vencimiento;
+  //  const token= req.body.Token;
+  const Creado_por= req.body.Creado_por;
+  const Modificado_por= req.body.Modificado_por;
+  const Fecha_creacion= req.body.Fecha_creacion;
+  const Fecha_modificacion= req.body.Fecha_modificacion;
+
 
   const query = `UPDATE tbl_ms_usuario SET 
     Usuario = ?, 
@@ -123,18 +124,17 @@ app.put("/tbl_ms_usuario/:id", (req, res) => {
   db.query(
     query,
     [
-      usuario,
-      nombreCompletoUsuario,
-      contraseña,
-      fecha_Ultima_Conexion,
-      primer_Ingreso,
-      correo_Electronico,
-      fecha_Vencimiento,
-      token,
-      creado_Por,
-      modificado_Por,
-      fecha_Creacion,
-      fecha_Modificacion,
+      Usuario,
+      Nombre_Completo_Usuario,
+      Contraseña,
+      Fecha_Ultima_Conexion,
+      Primer_ingreso,
+      Correo_electronico,
+      Fecha_vencimiento,
+      Creado_por,
+      Modificado_por,
+      Fecha_creacion,
+      Fecha_modificacion,
       id, // Se incluye el ID del usuario como último parámetro
     ],
     (err, data) => {

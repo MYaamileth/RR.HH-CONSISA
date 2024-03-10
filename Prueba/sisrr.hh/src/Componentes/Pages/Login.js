@@ -81,12 +81,14 @@ const Login = () => {
            <span>Utilice su Nombre de Usuario</span>
            <input type="text" placeholder="Usuario" name="user" onInput={(e) => { 
            const errorElement = e.target.parentNode.querySelector('.error-message');
+           
            if (/[a-z]/.test(e.target.value)) { // validacion para permitir solo letras mayusculas
-           errorElement.textContent = 'Solo se permiten letras mayúsculas.';
-           e.target.value = e.target.value.toUpperCase();
+             errorElement.textContent = 'Solo se permiten letras mayúsculas.';
+              e.target.value = e.target.value.toUpperCase();
            } else {
-           errorElement.textContent = '';//
+             errorElement.textContent = '';//
            }
+
           }} onChange={() => setSignInError(false)} required />
           <span className="error-message"></span>
           <input type="password" placeholder="Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required />

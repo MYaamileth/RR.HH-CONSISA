@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./mantenimientoUsuario.css";
 import Swal from 'sweetalert2';
+import NuevoUsuario from "./NuevoUsuario";
 
 const MantenimientoUsuario = ({ onClose }) => {
   const [cargando, setCargando] = useState(false);
@@ -18,15 +19,105 @@ const MantenimientoUsuario = ({ onClose }) => {
     traerUsuarios();
   }, []);
 
+  
+  /*const [usuarios, setUsuarios] = useState([]);
 
-    //LLamada de pantalla despregable para crear un usuario
-    const pantallaCrear = () => {
+  useEffect(() => {
+    const fetchAllUsuarios = async () => {
+      try {
+        const res = await axios.get("http://localhost:8800/Usuario");
+        setUsuarios(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchAllUsuarios();
+  }, []);*/
+
+  // const res = await axios.get("http://localhost:8800/Usuario")
+
+  // Variable de estado para indicar si se está cargando la información
+      const [estado, setEstado] = useState("");
+      const [roles, setRoles] = useState("");
+      const [puesto, setPuesto] = useState("");
+      const [usuario, setUsuario] = useState("");
+      const [nombreCompletoUsuario, setNombreCompletoUsuario] = useState("");
+      const [contraseña, setContraseña] = useState("");
+      const [fecha_Ultima_Conexion, setFecha_Ultima_Conexion] = useState("");//Se agarra del sistema y constantemente se cambia
+      const [primer_Ingreso, setPimerIngreso] = useState("");//Se agarra del sistema y NUNCA se cambia
+      const [correo_Electronico, setCorreo_Electronico] = useState("");
+      const [fecha_Vencimiento, setFecha_Vencimiento] = useState("");//Se caluclo en el sistema
+      const [creado_Por, setCreado_Por] = useState("");//Se agarra del sistema y NUNCA se cambia
+      const [modificado_Por, setModificado_Por] = useState("");//Se agarra del sistema y constantemente se cambia
+      const [fecha_Creacion, setFecha_Creacion] = useState("");//Se agarra del sistema y NUNCA se cambia
+      const [fecha_Modificacion, setFecha_Modificacion] = useState("");//Se agarra del sistema y constantemente se cambia
+  
+      const [usuarioLista, setLista]=useState([]);//Lita para trer usuarios
+      const [edicion, setEditar]=useState(false);//Lita para trer usuarios
+
+
+
+  //EMPIEZA CRUD
+
+    const [busqueda, setBusqueda] = useState("");
+
+      // Filtro de usuarios basado en la busqueda
+      const listaFiltrada = usuarioLista.filter((usuario) => {
+        return (
+          usuario.Usuario.toLowerCase().includes(busqueda.toLowerCase()) ||
+          usuario.Nombre_Completo_Usuario.toLowerCase().includes(
+            busqueda.toLowerCase()
+          )
+        );
+     });
+
+  //Funcion para envio de valores capturados por los campos del frontend
+  const creacionUsuario =()=>{
+    axios.post("http://localhost:3001/creacionUsuario", {
+   
+
+      //LOS CAMPOS ANTERIORES DESPUES DE DEBEN ELIMINAR DESPUES
+      Id_Estado: estado,
+      Id_rol: roles,
+      Id_puesto: puesto,
+      Usuario: usuario,
+      Nombre_Completo_Usuario: nombreCompletoUsuario,
+      Contraseña: contraseña,
+      Fecha_Ultima_Conexion: fecha_Ultima_Conexion,
+      Primer_ingreso: primer_Ingreso,
+      Correo_electronico: correo_Electronico,
+      Fecha_vencimiento: fecha_Vencimiento,
+      Creado_por: creado_Por,
+      Modificado_por: modificado_Por,
+      Fecha_creacion: fecha_Creacion,
+      Fecha_modificacion: fecha_Modificacion
+    
+    }). then(()=> {
+      //traerUsuarios(); //cada que se guarde un usuario se enlistara en la tabla
+      
+      //alert("Usuario registrado")
+    });
+  }
+  
+  //CAMBIA EL VALOR DE LA COSNTANTE DE EDITCION Y TRAE LOS VALORES DEL REGISTRO QUE ESTAMOS EDITANDO A LOS CAMPOS CORRESPONDIENTES
+  const editarUsuario=(val)=> {
+    setEditar(true);
+    setUsuario=(val.usuario);
+    setContraseña=(VAL.Contraseña);
+    setNombreCompletoUsuario=(val.nombreCompletoUsuario);
+    setCorreo_Electronico=(val.Correo_electronico);
+    setPuesto=(val.puesto);
+    setRoles=(val.roles);
+  }
+
+ //Llamado de pantalla integral para CREAR USUARIO
+ const pantallaCrear = () => {
       Swal.fire({
         title: 'Crear Usuario',
         html: `
           <div class="input-container">
-            <input
-              type="text"
+            <input type="text"
               placeholder="Usuario"
               class="textbox custom-input"
             />
@@ -52,7 +143,6 @@ const MantenimientoUsuario = ({ onClose }) => {
             </div>
           </div>
     
-
           <div class="input-container">
             <div class="checkbox-container">
                   <div class="estado-container">
@@ -103,7 +193,7 @@ const MantenimientoUsuario = ({ onClose }) => {
     };
     
 
-//Pantalla eliminar usuario
+    //Llamado de pantalla integral para EDITAR USUARIO
     const pantallaEditar = () => {
       Swal.fire({
         title: 'Editar Usuario',
@@ -188,29 +278,29 @@ const MantenimientoUsuario = ({ onClose }) => {
     };
 
 
-//Pantalla eliminar usuario
+    //Llamado de pantalla integral para ELIMINAR USUARIO
     const pantallaEliminar = () => {
-      Swal.fire({
-        title: 'Eliminar Usuario',
-        text: '¿Estás seguro de que deseas eliminar este usuario?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#7300f7',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Aquí puedes llamar a la función para eliminar el usuario
-          // eliminarUsuario();
-          Swal.fire('Eliminado!', 'El usuario ha sido eliminado.', 'success');
-        }
-      });
-    };
-    
+          Swal.fire({
+            title: 'Eliminar Usuario',
+            text: '¿Estás seguro de que deseas eliminar este usuario?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#7300f7',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Aquí puedes llamar a la función para eliminar el usuario
+              // eliminarUsuario();
+              Swal.fire('Eliminado!', 'El usuario ha sido eliminado.', 'success');
+            }
+          });
+        };
+        
 
 
-    
+    //Llamado de pantalla integral para Ccuando el usuario se quiera salir de la ventana deseada **NO APARECE EN LA INTERFAZ**
     const cerrarComponente = () => {
       Swal.fire({
         title: 'Cerrar Ventana',
@@ -230,89 +320,7 @@ const MantenimientoUsuario = ({ onClose }) => {
     };
 
  
-  
-  /*const [usuarios, setUsuarios] = useState([]);
-
-  useEffect(() => {
-    const fetchAllUsuarios = async () => {
-      try {
-        const res = await axios.get("http://localhost:8800/Usuario");
-        setUsuarios(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchAllUsuarios();
-  }, []);*/
-
-  // const res = await axios.get("http://localhost:8800/Usuario")
-
-  // Variable de estado para indicar si se está cargando la información
-      const [idusuario, setIdUsuario] = useState("");
-      const [estado, setEstado] = useState("");
-      const [roles, setRoles] = useState("");
-      const [puesto, setPuesto] = useState("");
-      const [usuario, setUsuario] = useState("");
-      const [nombreCompletoUsuario, setNombreCompletoUsuario] = useState("");
-      const [contraseña, setContraseña] = useState("");
-      const [fecha_Ultima_Conexion, setFecha_Ultima_Conexion] = useState("");
-      const [primer_Ingreso, setPimerIngreso] = useState("");
-      const [correo_Electronico, setCorreo_Electronico] = useState("");
-      const [fecha_Vencimiento, setFecha_Vencimiento] = useState("");
-      const [creado_Por, setCreado_Por] = useState("");
-      const [modificado_Por, setModificado_Por] = useState("");
-      const [fecha_Creacion, setFecha_Creacion] = useState("");
-      const [fecha_Modificacion, setFecha_Modificacion] = useState("");
-  
-      const [usuarioLista, setLista]=useState([]);//Lita para trer usuarios
-
-
-  //EMPIEZA CRUD
-
-      const [busqueda, setBusqueda] = useState("");
-
-      // Filtro de usuarios basado en la busqueda
-      const listaFiltrada = usuarioLista.filter((usuario) => {
-        return (
-          usuario.Usuario.toLowerCase().includes(busqueda.toLowerCase()) ||
-          usuario.Nombre_Completo_Usuario.toLowerCase().includes(
-            busqueda.toLowerCase()
-          )
-        );
-      });
-
-  //Envio de valores capturados por los campos del frontend
-  const creacionUsuario =()=>{
-    axios.post("http://localhost:3001/creacionUsuario", {
-   
-
-      //LOS CAMPOS ANTERIORES DESPUES DE DEBEN ELIMINAR DESPUES
-      Id_Estado: estado,
-      Id_rol: roles,
-      Id_puesto: puesto,
-      Usuario: usuario,
-      Nombre_Completo_Usuario: nombreCompletoUsuario,
-      Contraseña: contraseña,
-      Fecha_Ultima_Conexion: fecha_Ultima_Conexion,
-      Primer_ingreso: primer_Ingreso,
-      Correo_electronico: correo_Electronico,
-      Fecha_vencimiento: fecha_Vencimiento,
-      Creado_por: creado_Por,
-      Modificado_por: modificado_Por,
-      Fecha_creacion: fecha_Creacion,
-      Fecha_modificacion: fecha_Modificacion
-    
-    }). then(()=> {
-      //traerUsuarios(); //cada que se guarde un usuario se enlistara en la tabla
-      
-      //alert("Usuario registrado")
-    });
-  }
-
-  //traerUsuarios(); //Desde que se ingresa al apartado, traera los usuarios
-
-//EN LOS CAMPOS DE USUARIO Y EMAIL, CAMBIAR EL SET UNA VEZ QUE FUNIONE, PUES ESTAN LOS DE PRUEBA
+    //TODO LO DE AQUI SE MUESTRA EN LA INTERFAS
   return (
     <div data-maintenance-usuario="true" className="maintenance-container">
       {cargando ? (
@@ -334,7 +342,7 @@ const MantenimientoUsuario = ({ onClose }) => {
                         onChange={(e) => setBusqueda(e.target.value)}
                       />
                   </div>
-                  <button onClick={pantallaCrear} className="submit">Crear Usuario</button>
+                  <Link to="NuevoUsuario" className="submit">Crear Usuario</Link>
                   <button className="submit"> Generar Informe</button>
             </div>
 
