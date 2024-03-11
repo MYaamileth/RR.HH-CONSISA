@@ -73,13 +73,16 @@ const Login = () => {
     setSignUpError(false); // Reinicia el estado de error después de la acción exitosa
   };
   
+  const [showPassword, setShowPassword] = useState(false);// para mostrar contrasena
+  
+  
   return (
     <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="container" ref={containerRef}>
       <div className="form-container sign-in-container">
         <form action="#" onSubmit={handleSignIn}>
           <h1>Iniciar Sesión</h1>
            <span>Utilice su Nombre de Usuario</span>
-           <input type="text" placeholder="Usuario" name="user" onInput={(e) => { 
+           <input type="text" placeholder="Usuario"maxlength="15" name="user" onInput={(e) => { 
            const errorElement = e.target.parentNode.querySelector('.error-message');
            
            if (/[a-z]/.test(e.target.value)) { // validacion para permitir solo letras mayusculas
@@ -89,9 +92,13 @@ const Login = () => {
              errorElement.textContent = '';//
            }
 
-          }} onChange={() => setSignInError(false)} required />
-          <span className="error-message"></span>
-          <input type="password" placeholder="Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required />
+           }} onChange={() => setSignInError(false)} required />
+           <span className="error-message"></span>
+           <div>
+           <input type={showPassword ? "text" : "password"}  placeholder="Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required/>
+            <input type="checkbox" id="showPassword" onChange={() => setShowPassword(!showPassword)} />  
+            <label htmlFor="showPassword">Mostrar contraseña</label>
+           </div>
           {signInError && (
             <div className="error-icon">
               <FontAwesomeIcon icon={faExclamationTriangle} />
@@ -105,11 +112,41 @@ const Login = () => {
         <form action="#" onSubmit={handleSignUp}>
           <h1>{isSignUp ? 'Registrar' : 'Crear tu cuenta'}</h1>
           <span>Ingrese los siguientes Datos</span>
-          <input type="text" placeholder="Usuario" name="user" onInput={(e) => e.target.value = e.target.value.toUpperCase()} required />
-          <input type="name" placeholder="Nombre Completo" name="Nombre Completo" onChange={() => setSignUpError(false)} required />
-          <input type="email" placeholder="Email" name="Correo" onChange={() => setSignUpError(false)} required />
-          <input type="password" placeholder="Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required />
-          <input type="password" placeholder="Confirmar Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required />
+          <input type="text" placeholder="Usuario"maxlength="15" name="user" onInput={(e) => e.target.value = e.target.value.toUpperCase()} required />
+          <input type="name" placeholder="Nombre Completo" maxlength="100" name="Nombre Completo" onChange={() => setSignUpError(false)} 
+           onKeyPress={(e) => {     // validacion para no poner numeros o caracteres en el campo de nombre completo
+            
+            const regex = /[^a-zA-Záéíóúñ ]/;
+            const char = e.key;
+            
+            if (regex.test(char)) {
+              e.preventDefault();
+              
+            }
+            e.target.value = e.target.value.toUpperCase()// validacion para convertir minusculas en mayucs
+            setSignUpError(false);
+            
+          }}
+          required />
+          <input type="email" placeholder="Email"maxlength="50"  name="Correo" onChange={() => setSignUpError(false)} required />
+          <input type="password" placeholder="Contraseña" name="Contraseña" minLength="8" onChange={(e) => {const password = e.target.value;
+          // Valida la longitud de la contraseña y
+          if (password.length < 8) {
+           setSignUpError(true);
+         } else {
+           setSignUpError(false);
+         }
+         }}
+        required/>
+        
+        {signUpError && (
+        <div className="error-icon">
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          <p>debe tener al menos 8 caracteres.</p>
+        </div>
+       )}
+
+        <input type="password" placeholder="Confirmar Contraseña" name="Contraseña"minLength="8" onChange={() => setSignUpError(false)} required />
           {signUpError && (
             <div className="error-icon">
               <FontAwesomeIcon icon={faExclamationTriangle} />
