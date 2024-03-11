@@ -2,9 +2,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import "./mantenimientoUsuario.css";
 import Swal from 'sweetalert2';
-import NuevoUsuario from "./NuevoUsuario";
+
+
+
 
 const MantenimientoUsuario = ({ onClose }) => {
   const [cargando, setCargando] = useState(false);
@@ -18,6 +21,14 @@ const MantenimientoUsuario = ({ onClose }) => {
   
     traerUsuarios();
   }, []);
+
+
+//const navigate = useNavigate();
+
+  //const nuevoUsuario = (e) => {
+    //e.preventDefault();
+    //navigate('/NuevoUsuario');
+  //};
 
   
   /*const [usuarios, setUsuarios] = useState([]);
@@ -342,7 +353,16 @@ const MantenimientoUsuario = ({ onClose }) => {
                         onChange={(e) => setBusqueda(e.target.value)}
                       />
                   </div>
-                  <Link to="NuevoUsuario" className="submit">Crear Usuario</Link>
+
+                  <Link to="/NuevoUsuario" className="submit">Crear Usuario</Link>
+
+                  <Link to="/EditarUsuario" className="submit">Editar Usuario</Link>
+
+                  <Link to="/EliminarUsuario" className="submit">Eliminar Usuario</Link>
+
+                  {/*  <button className="submit" on onClick={nuevoUsuario}> Ir a crear usuario</button> */}
+                 
+
                   <button className="submit"> Generar Informe</button>
             </div>
 

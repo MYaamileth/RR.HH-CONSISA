@@ -1,7 +1,13 @@
 import React from 'react'
-//import "./MantenimientoUsuario.css"
-const NuevoUsuario = () => {
+import "./editarUsuario.css"
+const EditarUsuario = () => {
+
+
+
+
+
   return (
+  
     <div>
        <div class="input-container">
             <input
@@ -67,4 +73,4 @@ const NuevoUsuario = () => {
   )
 }
 
-export default NuevoUsuario
+export default EditarUsuario
