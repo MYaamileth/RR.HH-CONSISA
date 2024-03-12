@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Componentes/Pages/Login.js';
 import Inicio from './Componentes/Pages/Inicio.js';
 import RecuperacionContraseña from "./Componentes/Pages/RecuperacionContraseña.js";
-import MantenimientoUsuario from "./Componentes/Pages/MantenimientoUsuario.js";
+import MantenimientoUsuario from "./Componentes/Pages/CRUDUsuario/MantenimientoUsuario.js";
 import Notificacion from "./Componentes/Pages/Notificacion.js";
 import NuevoUsuario from "./Componentes/Pages/CRUDUsuario/NuevoUsuario.js";
 import EditarUsuario from "./Componentes/Pages/CRUDUsuario/EditarUsuario.js";

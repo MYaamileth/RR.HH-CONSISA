@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './dashboard.css';
 import { useNavigate } from 'react-router-dom';
-import MantenimientoUsuario from './MantenimientoUsuario'; // Importa el nuevo componente
+import MantenimientoUsuario from './CRUDUsuario/MantenimientoUsuario.js'; // Importa el nuevo componente
 
 const Dashboard = () => {
   const [isSidebarClosed, setSidebarClosed] = useState(false);
