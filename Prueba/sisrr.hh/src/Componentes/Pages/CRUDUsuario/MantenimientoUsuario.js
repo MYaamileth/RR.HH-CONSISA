@@ -331,7 +331,7 @@ const MantenimientoUsuario = ({ onClose }) => {
     };
 
  
-    //TODO LO DE AQUI SE MUESTRA EN LA INTERFAS
+    //TODO LO DE AQUI SE MUESTRA EN LA INTERFAZ
   return (
     <div data-maintenance-usuario="true" className="maintenance-container">
       {cargando ? (
@@ -354,11 +354,12 @@ const MantenimientoUsuario = ({ onClose }) => {
                       />
                   </div>
 
-                  <Link to="/NuevoUsuario" className="submit">Crear Usuario</Link>
+                  <Link to="/NuevoUsuario" className="submit">Crear</Link>
 
-                  <Link to="/EditarUsuario" className="submit">Editar Usuario</Link>
+                  <Link to="/EditarUsuario" className="submit">Editar</Link>
 
-                  <Link to="/EliminarUsuario" className="submit">Eliminar Usuario</Link>
+                  {/* <Link to="/EliminarUsuario" className="submit">Eliminar</Link> */}
+                
 
                   {/*  <button className="submit" on onClick={nuevoUsuario}> Ir a crear usuario</button> */}
                  
