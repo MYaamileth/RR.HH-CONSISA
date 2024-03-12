@@ -23,3 +23,30 @@
     color: #fff;
     border: none
   }
+  .alert {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f44336;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    width: 90%;
+    text-align: center;
+  }
+  
+  .closebtn {
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+  }
+  
+  .closebtn:hover {
+    color: black;
+  }
+  
