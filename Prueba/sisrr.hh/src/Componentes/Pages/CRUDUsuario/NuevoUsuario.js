@@ -262,6 +262,8 @@ const NuevoUsuario = () => {
 
         {/* Selección de Puesto */}
         <div className="flex-row">
+        <label className="custom-label">
+            Puesto:
           <select className="inputPuesto custom-select" onBlur={(event) => {
             const selectedOption = event.target.value;
             let errorMessage = '';
@@ -282,6 +284,8 @@ const NuevoUsuario = () => {
             <option value="usuario">Administrador de BD</option>
             <option value="agregarRol">Agregar Rol</option>
           </select>
+          </label>
+          
           <span id="puestoErrorMessage" style={{ color: "red" }}></span>
 
           {/* Selección de Rol */}
@@ -310,14 +314,15 @@ const NuevoUsuario = () => {
           </label>
           <span id="rolErrorMessage" style={{ color: "red" }}></span>
 
-        
+        </div>
+      </div>
+
+        <div className="form-buttons">
             <button id="crear">CREAR</button>
             
             <button id="cancelar">CANCELAR</button>
-       
-
-        </div>
-      </div>
+          </div>
+          
     </form>
   )
 }

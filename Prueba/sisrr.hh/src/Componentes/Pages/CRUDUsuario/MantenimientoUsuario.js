@@ -356,8 +356,6 @@ const MantenimientoUsuario = ({ onClose }) => {
 
                   <Link to="/NuevoUsuario" className="submit">Crear</Link>
 
-                  <Link to="/EditarUsuario" className="submit">Editar</Link>
-
                   {/* <Link to="/EliminarUsuario" className="submit">Eliminar</Link> */}
                 
 
@@ -387,7 +385,7 @@ const MantenimientoUsuario = ({ onClose }) => {
                             <th>{val.Correo_electronico}</th>
                             <th>{val.Fecha_Ultima_Conexion}</th>
                               <td> 
-                                <button onClick={pantallaEditar} className="submit icon-button"> Editar </button>
+                                <Link to="/EditarUsuario" className="submit">Editar</Link>
                                 <button onClick={pantallaEliminar} className="submit icon-button"> Eliminar </button>
                                </td>
                             </tr>
