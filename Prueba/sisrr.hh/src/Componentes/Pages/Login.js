@@ -14,6 +14,7 @@ const Login = () => {
   const [signUpError, setSignUpError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+
   useEffect(() => {
     const signUpButton = containerRef.current.querySelector('#signUp');
     const signInButton = containerRef.current.querySelector('#signIn');
@@ -74,6 +75,7 @@ const Login = () => {
     setSignUpError(false); // Reinicia el estado de error después de la acción exitosa
   };
   
+  /////
   
   return (
     <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="container" ref={containerRef}>
@@ -81,17 +83,7 @@ const Login = () => {
         <form action="#" onSubmit={handleSignIn}>
           <h1>Iniciar Sesión</h1>
            <span>Utilice su Nombre de Usuario</span>
-           <input type="text" placeholder="Usuario"maxlength="15" name="user" onInput={(e) => { 
-           const errorElement = e.target.parentNode.querySelector('.error-message');
-           
-           if (/[a-z]/.test(e.target.value)) { // validacion para permitir solo letras mayusculas
-             errorElement.textContent = 'Solo se permiten letras mayúsculas.';
-              e.target.value = e.target.value.toUpperCase();
-           } else {
-             errorElement.textContent = '';//
-           }
-
-           }} onChange={() => setSignInError(false)} required />
+           <input type="text" placeholder="Usuario"maxlength="15" name="user" onInput={(e) => {const regex = /[^a-zA-Z0-9]/g;e.target.value = e.target.value.toUpperCase().replace(regex, ""); }}required/> 
            <span className="error-message"></span>
            <div style={{ position: 'relative' }}>
            <input type={showPassword ? "text" : "password"} placeholder="Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required />
@@ -110,8 +102,13 @@ const Login = () => {
         <form action="#" onSubmit={handleSignUp}>
           <h1>{isSignUp ? 'Registrar' : 'Crear tu cuenta'}</h1>
           <span>Ingrese los siguientes Datos</span>
-          <input type="text" placeholder="Usuario"maxlength="15" name="user" onInput={(e) => e.target.value = e.target.value.toUpperCase()} required />
-          <input type="name" placeholder="Nombre Completo" maxlength="100" name="Nombre Completo" onChange={() => setSignUpError(false)} 
+          <input type="text" placeholder="Usuario"maxlength="15" name="user" onInput={(e) => {
+    const regex = /[^a-zA-Z0-9]/g;
+    e.target.value = e.target.value.toUpperCase().replace(regex, "");
+  }}
+  required
+/>
+          <input type="name" placeholder="Nombre Completo" maxlength="40" name="Nombre Completo" onChange={() => setSignUpError(false)} 
            onKeyPress={(e) => {     // validacion para no poner numeros o caracteres en el campo de nombre completo
             
             const regex = /[^a-zA-Záéíóúñ ]/;
@@ -129,6 +126,7 @@ const Login = () => {
           <input type="email" placeholder="Email"maxlength="50"  name="Correo" onChange={() => setSignUpError(false)} required />
           <input type="password" placeholder="Contraseña" name="Contraseña" minLength="8" onChange={(e) => {const password = e.target.value;
           // Valida la longitud de la contraseña y
+          
           if (password.length < 8) {
            setSignUpError(true);
          } else {
