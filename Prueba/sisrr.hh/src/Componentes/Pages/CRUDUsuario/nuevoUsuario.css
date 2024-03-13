@@ -1,4 +1,4 @@
-#Formulario{
+[Formulario-Crear= "true"] .Formulario{
     background-color: aliceblue;
     width: 600px;
     height: 400px;
@@ -9,25 +9,24 @@
     justify-content: center;
     position: relative;
     margin-bottom: 20px;
-
 }
 
-#Titulo{
+[Formulario-Crear= "true"] .Titulo{
     color: rgb(91, 0, 182);
     font-family: Arial, Helvetica, sans-serif;
     margin-bottom: 20px;
 }
 
-button{
+[Formulario-Crear= "true"] .button{
     position: absolute;
     bottom: 0;
 }
 
-#crear{
+[Formulario-Crear= "true"] .crear{
     margin-right: 100px;
 }
 
-#cancelar{
+[Formulario-Crear= "true"] .cancelar{
     margin-left: 200px;
 }
 

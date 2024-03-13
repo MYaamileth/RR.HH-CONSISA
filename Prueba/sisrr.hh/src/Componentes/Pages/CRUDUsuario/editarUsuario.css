@@ -1,4 +1,4 @@
-#Formulario{
+[Formulario-Editar= "true"] .Formulario{
     background-color: aliceblue;
     width: 600px;
     height: 400px;
@@ -12,21 +12,21 @@
 
 }
 
-#Titulo{
+[Formulario-Editar= "true"] .Titulo{
     color: rgb(91, 0, 182);
     font-family: Arial, Helvetica, sans-serif;
     margin-bottom: 20px;
 }
 
-button{
+[Formulario-Editar= "true"] .button{
     position: absolute;
     bottom: 0;
 }
 
-#editar{
+[Formulario-Editar = "true"].editar{
     margin-right: 100px;
 }
 
-#cancelar{
+[Formulario-Editar = "true"] .cancelar{
     margin-left: 200px;
 }

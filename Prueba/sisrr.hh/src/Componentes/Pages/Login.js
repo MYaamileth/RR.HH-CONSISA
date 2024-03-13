@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import './login.css';
 
 const Login = () => {
@@ -12,6 +12,7 @@ const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [signInError, setSignInError] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const signUpButton = containerRef.current.querySelector('#signUp');
@@ -73,8 +74,6 @@ const Login = () => {
     setSignUpError(false); // Reinicia el estado de error después de la acción exitosa
   };
   
-  const [showPassword, setShowPassword] = useState(false);// para mostrar contrasena
-  
   
   return (
     <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="container" ref={containerRef}>
@@ -94,11 +93,10 @@ const Login = () => {
 
            }} onChange={() => setSignInError(false)} required />
            <span className="error-message"></span>
-           <div>
-           <input type={showPassword ? "text" : "password"}  placeholder="Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required/>
-            <input type="checkbox" id="showPassword" onChange={() => setShowPassword(!showPassword)} />  
-            <label htmlFor="showPassword">Mostrar contraseña</label>
-           </div>
+           <div style={{ position: 'relative' }}>
+           <input type={showPassword ? "text" : "password"} placeholder="Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required />
+            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} onClick={() => setShowPassword(!showPassword)} className="eye-icon" style={{ color:"#7f24f5", position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+          </div>
           {signInError && (
             <div className="error-icon">
               <FontAwesomeIcon icon={faExclamationTriangle} />

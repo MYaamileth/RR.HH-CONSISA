@@ -6,7 +6,7 @@ const EditarUsuario = () => {
 
   return (
     // Formulario de edición de usuario
-    <form id="Formulario">
+    <form Formulario-Editar ="true" className="Formulario-Editar">
       <h1 id="Titulo">EDITAR USUARIO</h1>
 
       {/* Contenedor de inputs */}

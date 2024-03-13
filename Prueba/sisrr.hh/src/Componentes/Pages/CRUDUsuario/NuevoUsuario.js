@@ -1,20 +1,114 @@
-import React from 'react';
 import "./nuevoUsuario.css";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 // Componente funcional EditarUsuario
 const NuevoUsuario = () => {
 
+  // Función para sumar días a una fecha
+  function sumarDias(fecha, dias) {
+    if (!fecha) return null; // Manejar el caso de fecha indefinida
+    const nuevaFecha = new Date(fecha);
+    nuevaFecha.setDate(nuevaFecha.getDate() + dias);
+    return nuevaFecha;
+  }
+  
+  function obtenerFechaVencimiento(fechaPrimerIngreso) {
+    const fechaVencimiento = sumarDias(fechaPrimerIngreso, 40); // Función `sumarDias` no definida. Debes implementarla o usar una biblioteca para sumar días a una fecha.
+    return fechaVencimiento.toISOString().substring(0, 19);
+  }
+
+  // Función para obtener la fecha actual
+  function obtenerFechaActual() {
+    return new Date().toISOString().substring(0, 19);
+  }
+  
+  // Función para calcular la fecha de vencimiento
+  function calcularFechaVencimiento(fechaPrimerIngreso) {
+    const fechaVencimiento = sumarDias(fechaPrimerIngreso, 40);
+    if (!fechaVencimiento) return null; // Manejar el caso de fecha indefinida
+    return fechaVencimiento.toISOString().substring(0, 19);
+  }
+  
+  // Función para obtener la fecha de la primera sesión
+  function obtenerFechaPrimerSesion() {
+    const fechaPrimerSesion = localStorage.getItem("fechaPrimerSesion");
+    if (fechaPrimerSesion) {
+      return fechaPrimerSesion;
+    } else {
+      const fechaActual = new Date();
+      localStorage.setItem("fechaPrimerSesion", fechaActual.toISOString().substring(0, 19));
+      return fechaActual.toISOString().substring(0, 19);
+    }
+  }
+  
+  // Función para actualizar la fecha de la primera sesión
+  function actualizarFechaPrimerSesion() {
+    const fechaVencimiento = obtenerFechaVencimiento(obtenerFechaPrimerSesion());
+    const fechaActual = new Date();
+    if (fechaActual > fechaVencimiento) {
+      localStorage.setItem("fechaPrimerSesion", fechaActual.toISOString().substring(0, 19));
+    }
+  }
+
+  // Variable de estado para indicar si se está cargando la información
+    const [estado, setEstado] = useState("");
+    const [roles, setRoles] = useState("");
+    const [puesto, setPuesto] = useState("");
+    const [usuario, setUsuario] = useState("");
+    const [nombreCompletoUsuario, setNombreCompletoUsuario] = useState("");
+    const [contraseña, setContraseña] = useState("");
+    const fechaUltimaConexion = obtenerFechaActual();
+    const [primer_Ingreso, setPimerIngreso] = useState("");
+    const [correo_Electronico, setCorreo_Electronico] = useState("");
+    const fechaVencimiento = calcularFechaVencimiento(primer_Ingreso);
+    const [creado_Por, setCreado_Por] = useState("");
+    const [modificado_Por, setModificado_Por] = useState("");
+    const [fecha_Creacion, setFecha_Creacion] = useState("");
+    const [fecha_Modificacion, setFecha_Modificacion] = useState("");
+
+     //Funcion para envio de valores capturados por los campos del frontend
+    const creacionUsuario =()=>{
+    axios.post("http://localhost:3001/creacionUsuario", {
+   
+
+      //LOS CAMPOS ANTERIORES DESPUES DE DEBEN ELIMINAR DESPUES
+      Id_Estado: estado,
+      Id_rol: roles,
+      Id_puesto: puesto,
+      Usuario: usuario,
+      Nombre_Completo_Usuario: nombreCompletoUsuario,
+      Contraseña: contraseña,
+      Fecha_Ultima_Conexion: fechaUltimaConexion,//calculado en el sistema
+      Primer_ingreso: primer_Ingreso,
+      Correo_electronico: correo_Electronico,
+      Fecha_vencimiento: fechaVencimiento,//calculado en el sistema
+      Creado_por: creado_Por,
+      Modificado_por: modificado_Por,
+      Fecha_creacion: fecha_Creacion,
+      Fecha_modificacion: fecha_Modificacion
+    
+    }). then(()=> {
+      //traerUsuarios(); //cada que se guarde un usuario se enlistara en la tabla
+      
+      //alert("Usuario registrado")
+    });
+  }
+
   return (
     // Formulario de edición de usuario
-    <form id="Formulario">
+    <form Formulario-Crear ="true" className="Crear">
       <h1 id="Titulo">CREAR USUARIO</h1>
     
       {/* Contenedor de inputs */}
-      <div className="input-container">
+        <div className="input-container">
 
         {/* Input para el nombre de usuario */}
         <div>
           <input
+            onChange={(event)=>{
+              setUsuario(event.target.value);
+            }}
             type="text"
             placeholder="Usuario"
             className="textbox custom-input"
@@ -36,10 +130,12 @@ const NuevoUsuario = () => {
           />
           <span id="errorMessage" style={{ color: "red" }}></span>
         </div>
-
         {/* Input para el nombre completo */}
         <div>
           <input
+            onChange={(event)=>{
+              setNombreCompletoUsuario(event.target.value);
+            }}
             type="text"
             placeholder="Nombre Completo"
             className="textbox custom-input"
@@ -65,6 +161,9 @@ const NuevoUsuario = () => {
 
           {/* Input para la contraseña */}
           <input
+             onChange={(event)=>{
+              setContraseña(event.target.value);
+            }}
             type="password"
             placeholder="Contraseña"
             className="textbox custom-input"
@@ -103,6 +202,9 @@ const NuevoUsuario = () => {
 
           {/* Input para el correo electrónico */}
           <input
+            onChange={(event)=>{
+              setCorreo_Electronico(event.target.value);
+            }}
             type="text"
             placeholder="Email"
             className="textbox custom-input"
@@ -145,7 +247,6 @@ const NuevoUsuario = () => {
                 if (!isChecked) {
                   errorMessage = 'Debes seleccionar el estado del usuario';
                 }
-
                 // Muestra el mensaje de error si es necesario
                 if (errorMessage) {
                   document.getElementById("estadoUsuarioErrorMessage").textContent = errorMessage;
@@ -222,4 +323,3 @@ const NuevoUsuario = () => {
 }
 
 export default NuevoUsuario;
-
