@@ -1,32 +1,72 @@
-[Formulario-Editar= "true"] .Formulario{
-    background-color: aliceblue;
-    width: 600px;
-    height: 400px;
-    border-radius: 10px;
+/* Estilo del Formulario Crear */
+.Editar {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin-bottom: 20px;
-
+    width: 700px; /* Cambiar el ancho según sea necesario */
+    height: 350px;
+    background-color: white;
+    align-items: center; /* Para alinear los elementos horizontalmente */
 }
 
-[Formulario-Editar= "true"] .Titulo{
-    color: rgb(91, 0, 182);
-    font-family: Arial, Helvetica, sans-serif;
-    margin-bottom: 20px;
+/* Estilos de los Input */
+.custom-input {
+    width: 200px;
+    margin: 5px 5px 5px; /* Modificado el margen superior */
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-[Formulario-Editar= "true"] .button{
-    position: absolute;
-    bottom: 0;
+/* Estilos de Label */
+.custom-label {
+    font-size: 12px;
+    margin-left: 20px;
+    margin-right: 5px;
+    flex-grow: 1; /* Permite que el label se expanda según su contenido */
 }
 
-[Formulario-Editar = "true"].editar{
-    margin-right: 100px;
+/* Estilos básicos del select */
+.custom-select {
+    width: 150px; /* Ancho del select */
+    padding: 5px; /* Espacio interno alrededor del contenido */
+    font-size: 12px; /* Tamaño de la fuente */
+    border: 1px solid #ccc; /* Borde del select */
+    border-radius: 5px; /* Esquinas redondeadas */
+    outline: none; /* Elimina el resaltado del borde al hacer clic */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el select */
 }
 
-[Formulario-Editar = "true"] .cancelar{
-    margin-left: 200px;
+.custom-select:focus {
+    border-color: #7125ff; /* Color del borde al estar enfocado */
+}
+
+.custom-select::after {
+    content: '\25BC'; /* Código de la flecha hacia abajo */
+    position: absolute; /* Posición absoluta en relación con el select */
+    top: 50%; /* Alinea verticalmente el ícono en el centro */
+    right: 10px; /* Alinea el ícono a la derecha del select */
+    transform: translateY(-50%); /* Ajusta la posición vertical del ícono */
+    pointer-events: none; /* Evita que el ícono interfiera con el clic en el select */
+}
+
+.input-container {
+    margin-bottom: 10px;
+}
+
+.form-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* Para alinear los botones horizontalmente */
+}
+
+/* Botones */
+[Formulario-Crear="true"] .form-buttons button {
+    margin: 0 5px; /* Espacio entre los botones */
+}
+
+.Titulo{
+    color:#9012af;
 }

@@ -354,7 +354,9 @@ const MantenimientoUsuario = ({ onClose }) => {
                       />
                   </div>
 
-                  <Link to="/NuevoUsuario" className="submit">Crear</Link>
+                  <Link to="/NuevoUsuario" className="submit">CREAR</Link>
+
+                  <Link to="/EditarUsuario" className="submit">EDITAR</Link>
 
                   {/* <Link to="/EliminarUsuario" className="submit">Eliminar</Link> */}
                 

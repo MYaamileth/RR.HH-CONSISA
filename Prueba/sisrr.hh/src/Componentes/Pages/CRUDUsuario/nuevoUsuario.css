@@ -14,7 +14,6 @@
 /* Estilos de los Input */
 .custom-input {
     width: 200px;
-    margin: 5px 5px 5px; /* Modificado el margen superior */
     padding: 5px 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -52,10 +51,6 @@
     pointer-events: none; /* Evita que el ícono interfiera con el clic en el select */
 }
 
-.input-container {
-    margin-bottom: 10px;
-}
-
 .form-buttons {
     margin-top: 10px;
     display: flex;
@@ -66,3 +61,27 @@
 [Formulario-Crear="true"] .form-buttons button {
     margin: 0 5px; /* Espacio entre los botones */
 }
+
+.Titulo {
+    color: #9012af;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.input-group {
+    margin-right: 10px; /* Espacio entre los grupos de input */
+    position: relative;
+}
+
+.error-message {
+    position: absolute;
+    bottom: -20px; /* Posiciona el mensaje justo debajo del input */
+    left: 0;
+    margin-bottom: 5px;
+}
+
+
+

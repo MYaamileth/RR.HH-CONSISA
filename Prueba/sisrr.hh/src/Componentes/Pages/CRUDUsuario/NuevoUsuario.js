@@ -100,60 +100,63 @@ const NuevoUsuario = () => {
     <form Formulario-Crear ="true" className="Crear">
       <h1 id="Titulo">CREAR USUARIO</h1>
     
-      {/* Contenedor de inputs */}
-        <div className="input-container">
+ {/* Contenedor principal */}
+<div className="input-container">
 
-        {/* Input para el nombre de usuario */}
-        <div>
-          <input
-            onChange={(event)=>{
-              setUsuario(event.target.value);
-            }}
-            type="text"
-            placeholder="Usuario"
-            className="textbox custom-input"
-            maxLength={15} // Limita la longitud del input a 15 caracteres
-            onKeyPress={(event) => {
-              const char = event.key;
-              const inputValue = event.target.value.toUpperCase();
+{/* Contenedor para el usuario */}
+<div className="input-group">
+  <input
+    onChange={(event)=>{
+      setUsuario(event.target.value);
+    }}
+    type="text"
+    placeholder="Usuario"
+    className="textbox custom-input"
+    maxLength={15} // Limita la longitud del input a 15 caracteres
+    onKeyPress={(event) => {
+      const char = event.key;
+      const inputValue = event.target.value.toUpperCase();
 
-              if (!/[A-Z]/.test(char)) {
-                event.preventDefault();
-                document.getElementById("errorMessage").textContent = "Solo se permiten mayúsculas";
-              } else if (inputValue.length >= 15) {
-                event.preventDefault();
-                document.getElementById("errorMessage").textContent = "Máximo de caracteres alcanzados";
-              } else {
-                document.getElementById("errorMessage").textContent = ""; // Reinicia el mensaje de error si se ingresa una mayúscula
-              }
-            }}
-          />
-          <span id="errorMessage" style={{ color: "red" }}></span>
-        </div>
-        {/* Input para el nombre completo */}
-        <div>
-          <input
-            onChange={(event)=>{
-              setNombreCompletoUsuario(event.target.value);
-            }}
-            type="text"
-            placeholder="Nombre Completo"
-            className="textbox custom-input"
-            maxLength={40} // Limita la longitud del input a 40 caracteres
-            onKeyPress={(event) => {
-              const char = event.key;
+      if (!/[A-Z]/.test(char)) {
+        event.preventDefault();
+        event.target.nextElementSibling.textContent = "Solo se permiten mayúsculas";
+      } else if (inputValue.length >= 15) {
+        event.preventDefault();
+        event.target.nextElementSibling.textContent = "Máximo de caracteres alcanzados";
+      } else {
+        event.target.nextElementSibling.textContent = ""; // Reinicia el mensaje de error si se ingresa una mayúscula
+      }
+    }}
+  />
+  <span className="error-message" style={{ color: "red" }}></span>
+</div>
 
-              if (!/[a-zA-Z\s]/.test(char)) { // Verifica si el carácter ingresado no es una letra o un espacio
-                event.preventDefault();
-                document.getElementById("errorMessage").textContent = "Solo se permite Letras";
-              } else {
-                document.getElementById("errorMessage").textContent = ""; // Reinicia el mensaje de error si se ingresa una letra o un espacio
-              }
-            }}
-          />
-          <span id="errorMessage" style={{ color: "red" }}></span>
-        </div>
-      </div>
+{/* Contenedor para el nombre completo */}
+<div className="input-group">
+  <input
+    onChange={(event)=>{
+      setNombreCompletoUsuario(event.target.value);
+    }}
+    type="text"
+    placeholder="Nombre Completo"
+    className="textbox custom-input"
+    maxLength={40} // Limita la longitud del input a 40 caracteres
+    onKeyPress={(event) => {
+      const char = event.key;
+
+      if (!/[a-zA-Z\s]/.test(char)) { // Verifica si el carácter ingresado no es una letra o un espacio
+        event.preventDefault();
+        event.target.nextElementSibling.textContent = "Solo se permite Letras";
+      } else {
+        event.target.nextElementSibling.textContent = ""; // Reinicia el mensaje de error si se ingresa una letra o un espacio
+      }
+    }}
+  />
+  <span className="error-message" style={{ color: "red" }}></span>
+</div>
+</div>
+
+
 
       {/* Otro contenedor de inputs */}
       <div className="input-container">
