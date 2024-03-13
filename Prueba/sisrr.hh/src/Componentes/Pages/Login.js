@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faExclamationTriangle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import './login.css';
 
 const Login = () => {
@@ -12,12 +13,6 @@ const Login = () => {
   const [signInError, setSignInError] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-
-  // Simulación de base de datos de usuarios
-  const [usersDatabase, setUsersDatabase] = useState([
-    { user: 'kj', email: 'admin@example.com', password: '1234consisa', fullName: 'Admin', state: 'active', role: 'admin' }
-  ]);
 
   useEffect(() => {
     const signUpButton = containerRef.current.querySelector('#signUp');
@@ -34,69 +29,77 @@ const Login = () => {
     });
   }, []);
 
+
   const handleRecuperacionContraseña = (e) => {
     e.preventDefault();
-    navigate('/Notificacion');
+    navigate('/RecuperacionContraseña');
   };
+
 
   const handleSignIn = (e) => {
     e.preventDefault();
     const user = e.target.querySelector('input[name="user"]').value;
-    const password = e.target.querySelector('input[name="Contraseña"]').value;
+    
 
-    const foundUser = usersDatabase.find(u => u.user === user && u.password === password);
-
-    if (!foundUser) {
+    if (!user) {
       setSignInError(true);
       return;
     }
 
-    console.log('Iniciar sesión con:', user);
-    setSignInError(false);
-
-    if (foundUser.state === 'nuevo') {
-      navigate('/Notificacion');
-    } else {
-      navigate('/inicio');
+    // Validación adicional (opcional):
+    if (/[a-z]/.test(user)) {
+      // Mostrar mensaje de error indicando la necesidad de usar solo mayúsculas
+      return;
     }
+
+    
+    // Aquí debes agregar la lógica de inicio de sesión
+    console.log('Iniciar sesión con:', user);
+    setSignInError(false); // Reinicia el estado de error después de la acción exitosa
+
+    // Redirecciona a la página de inicio después de un inicio de sesión exitoso
+    navigate('/Notificacion');
+    
   };
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    const newUser = {
-      user: e.target.querySelector('input[name="user"]').value,
-      email: e.target.querySelector('input[name="Correo"]').value,
-      password: e.target.querySelector('input[name="Contraseña"]').value,
-      fullName: e.target.querySelector('input[name="Nombre Completo"]').value,
-      state: 'nuevo', // Nuevo usuario, pendiente de verificación de correo
-      role: 'user' // Por defecto, todos los nuevos usuarios tienen rol de usuario normal
-    };
-
-    setUsersDatabase(prevUsers => [...prevUsers, newUser]);
-    setShowConfirmation(true);
-
-    setTimeout(() => {
-      setShowConfirmation(false);
-    }, 3000); // Mostrar el mensaje de éxito durante 3 segundos
-
-    console.log('Nuevo usuario registrado:', newUser.user);
+    const user = e.target.querySelector('input[name="user"]').value;
+    if (!user) {
+      setSignUpError(true);
+      return;
+    }
+    // Aquí debes agregar la lógica de registro
+    console.log('Registrar con:', user);
+    setSignUpError(false); // Reinicia el estado de error después de la acción exitosa
   };
-
+  
+  
   return (
     <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="container" ref={containerRef}>
       <div className="form-container sign-in-container">
         <form action="#" onSubmit={handleSignIn}>
           <h1>Iniciar Sesión</h1>
-          <span>Utilice su Nombre de Usuario</span>
-          <input type="text" placeholder="Usuario" maxLength="15" name="user" onChange={() => setSignInError(false)} required />
-          <div style={{ position: 'relative' }}>
-            <input type={showPassword ? "text" : "password"} placeholder="Contraseña" name="Contraseña" onChange={() => setSignInError(false)} required />
-            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} onClick={() => setShowPassword(!showPassword)} className="eye-icon" style={{ color: "#7f24f5", position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+           <span>Utilice su Nombre de Usuario</span>
+           <input type="text" placeholder="Usuario"maxlength="15" name="user" onInput={(e) => { 
+           const errorElement = e.target.parentNode.querySelector('.error-message');
+           
+           if (/[a-z]/.test(e.target.value)) { // validacion para permitir solo letras mayusculas
+             errorElement.textContent = 'Solo se permiten letras mayúsculas.';
+              e.target.value = e.target.value.toUpperCase();
+           } else {
+             errorElement.textContent = '';//
+           }
+
+           }} onChange={() => setSignInError(false)} required />
+           <span className="error-message"></span>
+           <div style={{ position: 'relative' }}>
+           <input type={showPassword ? "text" : "password"} placeholder="Contraseña" name="Contraseña" onChange={() => setSignUpError(false)} required />
+            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} onClick={() => setShowPassword(!showPassword)} className="eye-icon" style={{ color:"#7f24f5", position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }} />
           </div>
           {signInError && (
             <div className="error-icon">
               <FontAwesomeIcon icon={faExclamationTriangle} />
-              <p>El usuario o la contraseña son incorrectos.</p>
             </div>
           )}
           <a href="#" onClick={handleRecuperacionContraseña}>¿Olvidó su contraseña?</a>
@@ -107,33 +110,47 @@ const Login = () => {
         <form action="#" onSubmit={handleSignUp}>
           <h1>{isSignUp ? 'Registrar' : 'Crear tu cuenta'}</h1>
           <span>Ingrese los siguientes Datos</span>
-          <input type="text" placeholder="Usuario" maxLength="15" name="user" required />
-          <input type="name" placeholder="Nombre Completo" maxLength="100" name="Nombre Completo" required />
-          <input type="email" placeholder="Email" maxLength="50" name="Correo" required />
-          <div style={{ position: 'relative' }}>
-            <input type={showPassword ? "text" : "password"} placeholder="Contraseña" name="Contraseña" minLength="8" onChange={() => setSignUpError(false)} required />
-            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} onClick={() => setShowPassword(!showPassword)} className="eye-icon" style={{ color: "#7f24f5", position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }} />
-          </div>
+          <input type="text" placeholder="Usuario"maxlength="15" name="user" onInput={(e) => e.target.value = e.target.value.toUpperCase()} required />
+          <input type="name" placeholder="Nombre Completo" maxlength="100" name="Nombre Completo" onChange={() => setSignUpError(false)} 
+           onKeyPress={(e) => {     // validacion para no poner numeros o caracteres en el campo de nombre completo
+            
+            const regex = /[^a-zA-Záéíóúñ ]/;
+            const char = e.key;
+            
+            if (regex.test(char)) {
+              e.preventDefault();
+              
+            }
+            e.target.value = e.target.value.toUpperCase()// validacion para convertir minusculas en mayucs
+            setSignUpError(false);
+            
+          }}
+          required />
+          <input type="email" placeholder="Email"maxlength="50"  name="Correo" onChange={() => setSignUpError(false)} required />
+          <input type="password" placeholder="Contraseña" name="Contraseña" minLength="8" onChange={(e) => {const password = e.target.value;
+          // Valida la longitud de la contraseña y
+          if (password.length < 8) {
+           setSignUpError(true);
+         } else {
+           setSignUpError(false);
+         }
+         }}
+        required/>
+        
+        {signUpError && (
+        <div className="error-icon">
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          <p>debe tener al menos 8 caracteres.</p>
+        </div>
+       )}
+
+        <input type="password" placeholder="Confirmar Contraseña" name="Contraseña"minLength="8" onChange={() => setSignUpError(false)} required />
           {signUpError && (
             <div className="error-icon">
               <FontAwesomeIcon icon={faExclamationTriangle} />
-              <p>La contraseña debe tener al menos 8 caracteres.</p>
             </div>
           )}
-          <input type="password" placeholder="Confirmar Contraseña" name="ConfirmarContraseña" minLength="8" onChange={() => setSignUpError(false)} required />
-          {signUpError && (
-            <div className="error-icon">
-              <FontAwesomeIcon icon={faExclamationTriangle} />
-              <p>Las contraseñas no coinciden.</p>
-            </div>
-          )}
-          <button type="submit">Registrarse</button>
-          {showConfirmation && (
-            <div className="success-message">
-              <FontAwesomeIcon icon={faCheckCircle} />
-              <p>¡Usuario creado exitosamente!</p>
-            </div>
-          )}
+          <button type="submit">Registrar</button>
         </form>
       </div>
       <div className="overlay-container">
@@ -146,7 +163,7 @@ const Login = () => {
           <div className="overlay-panel overlay-right">
             <h1>Bienvenido a GRUPO CONSISA</h1>
             <p>¿No tienes cuenta?</p>
-            <button className="ghost" id="signUp">Registrarse</button>
+            <button className="ghost" id="signUp">Registrar</button>
           </div>
         </div>
       </div>
