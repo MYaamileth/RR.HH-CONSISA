@@ -1,5 +1,5 @@
 import express from "express";
-import mysql from "mysql";
+import mysql from "mysql2";
 import cors from "cors";
 
 const app = express();
@@ -9,8 +9,8 @@ const app = express();
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "123456",
-  database: "consisa",
+  password: "dAniel45.",
+  database: "bd1",
 });
 
 app.use(express.json())

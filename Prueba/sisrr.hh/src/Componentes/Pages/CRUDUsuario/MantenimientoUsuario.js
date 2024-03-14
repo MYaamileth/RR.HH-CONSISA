@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 
 
 const MantenimientoUsuario = ({ onClose }) => {
+  const nombreUsuario = usuario ? usuario.toLowerCase() : "";
+
   const [cargando, setCargando] = useState(false);
    //Trae valores capturados por los campos del frontend
    useEffect(() => {
@@ -81,35 +83,11 @@ const MantenimientoUsuario = ({ onClose }) => {
             busqueda.toLowerCase()
           )
         );
-     });
+      });
+        
 
   //Funcion para envio de valores capturados por los campos del frontend
-  const creacionUsuario =()=>{
-    axios.post("http://localhost:3001/creacionUsuario", {
-   
 
-      //LOS CAMPOS ANTERIORES DESPUES DE DEBEN ELIMINAR DESPUES
-      Id_Estado: estado,
-      Id_rol: roles,
-      Id_puesto: puesto,
-      Usuario: usuario,
-      Nombre_Completo_Usuario: nombreCompletoUsuario,
-      Contraseña: contraseña,
-      Fecha_Ultima_Conexion: fecha_Ultima_Conexion,
-      Primer_ingreso: primer_Ingreso,
-      Correo_electronico: correo_Electronico,
-      Fecha_vencimiento: fecha_Vencimiento,
-      Creado_por: creado_Por,
-      Modificado_por: modificado_Por,
-      Fecha_creacion: fecha_Creacion,
-      Fecha_modificacion: fecha_Modificacion
-    
-    }). then(()=> {
-      //traerUsuarios(); //cada que se guarde un usuario se enlistara en la tabla
-      
-      //alert("Usuario registrado")
-    });
-  }
   
   //CAMBIA EL VALOR DE LA COSNTANTE DE EDITCION Y TRAE LOS VALORES DEL REGISTRO QUE ESTAMOS EDITANDO A LOS CAMPOS CORRESPONDIENTES
   const editarUsuario=(val)=> {
@@ -354,9 +332,7 @@ const MantenimientoUsuario = ({ onClose }) => {
                       />
                   </div>
 
-                  <Link to="/NuevoUsuario" className="submit">CREAR</Link>
-
-                  <Link to="/EditarUsuario" className="submit">EDITAR</Link>
+                  <Link to="/NuevoUsuario" className="submit">Crear</Link>
 
                   {/* <Link to="/EliminarUsuario" className="submit">Eliminar</Link> */}
                 
@@ -379,21 +355,28 @@ const MantenimientoUsuario = ({ onClose }) => {
                   </tr>
                 </thead>
                 <tbody>
-                {listaFiltrada.length > 0 ? (
-                  usuarioLista.map((val, key) => {
-                    return (<tr>
-                            <th>{val.Usuario}</th>
-                            <th>{val.Nombre_Completo_Usuario}</th>
-                            <th>{val.Correo_electronico}</th>
-                            <th>{val.Fecha_Ultima_Conexion}</th>
-                              <td> 
-                                <Link to="/EditarUsuario" className="submit">Editar</Link>
-                                <button onClick={pantallaEliminar} className="submit icon-button"> Eliminar </button>
-                               </td>
-                            </tr>
-                    );
-                   })
-                  
+               
+                {usuarioLista.length > 0 ? (
+      usuarioLista.map((val, key) => {
+        if (val.usuario !== null) {
+          return (
+            <tr>
+              <th>{val.usuario.toLowerCase()}</th>
+              <th>{val.Nombre_Completo_Usuario}</th>
+              <th>{val.Correo_electronico}</th>
+              <th>{val.Fecha_Ultima_Conexion}</th>
+              ...
+            </tr>
+          );
+        }
+      })
+                  ) : (
+                    <tr>
+                      <td colSpan="5">
+                        <p className="text-center">No se encontraron resultados</p>
+                      </td>
+                    </tr>
+                  )}
                 ) : (
                   <tr>
                     <td colSpan="5">
@@ -401,7 +384,7 @@ const MantenimientoUsuario = ({ onClose }) => {
                     </td>
                   </tr>
                   
-                )}
+                )
                     
                 </tbody>
               </table>
