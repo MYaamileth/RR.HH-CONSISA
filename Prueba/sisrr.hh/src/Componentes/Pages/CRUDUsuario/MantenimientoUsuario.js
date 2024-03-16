@@ -9,21 +9,7 @@ import Swal from 'sweetalert2';
 
 
 const MantenimientoUsuario = ({ onClose }) => {
-    // Variable Estados para los datos del usuario y la lista de usuarios
-  const [estado, setEstado] = useState("");
-  const [roles, setRoles] = useState("");
-  const [puesto, setPuesto] = useState("");
-  const [usuario, setUsuario] = useState("");
-  const [nombreCompletoUsuario, setNombreCompletoUsuario] = useState("");
-  const [contraseña, setContraseña] = useState("");
-  const [fecha_Ultima_Conexion, setFecha_Ultima_Conexion] = useState("");
-  const [primer_Ingreso, setPimerIngreso] = useState("");
-  const [correo_Electronico, setCorreo_Electronico] = useState("");
-  const [fecha_Vencimiento, setFecha_Vencimiento] = useState("");
-  const [creado_Por, setCreado_Por] = useState("");
-  const [modificado_Por, setModificado_Por] = useState("");
-  const [fecha_Creacion, setFecha_Creacion] = useState("");
-  const [fecha_Modificacion, setFecha_Modificacion] = useState("");
+ 
 
   const [usuarioLista, setLista] = useState([]); // Lista para traer usuarios
   const [edicion, setEditar] = useState(false);
@@ -151,27 +137,27 @@ const MantenimientoUsuario = ({ onClose }) => {
                 <tbody>
                 {listaFiltrada.length > 0 ? (
                   usuarioLista.map((val, key) => {
-                    return (<tr>
-                            <th>{val.Usuario}</th>
-                            <th>{val.Nombre_Completo_Usuario}</th>
-                            <th>{val.Correo_electronico}</th>
-                            <th>{val.Fecha_Ultima_Conexion}</th>
-                              <td> 
-                                <Link to="/EditarUsuario" className="submit icon-button">Editar</Link>
-                                <button onClick={pantallaEliminar} className="submit icon-button"> Eliminar </button>
-                              </td>
-                            </tr>
+                    return (
+                      <tr key={key}>
+                        <th>{val.Usuario}</th>
+                        <th>{val.Nombre_Completo_Usuario}</th>
+                        <th>{val.Correo_electronico}</th>
+                        <th>{val.Fecha_Ultima_Conexion}</th>
+                        <td> 
+                          <Link to="/EditarUsuario" className="submit icon-button">Editar</Link>
+                          <button onClick={pantallaEliminar} className="submit icon-button">Eliminar</button>
+                        </td>
+                      </tr>
                     );
-                   })
-                  
+                  })
                 ) : (
-                  <tr>
+                  <tr key="no-results">
                     <td colSpan="5">
                       <p className="text-center">No se encontraron resultados</p>
                     </td>
                   </tr>
-                  
                 )}
+
                     
                 </tbody>
               </table>
