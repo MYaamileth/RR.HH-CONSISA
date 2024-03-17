@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 
 
 
-const MantenimientoUsuario = ({ onClose }) => {
+const MantenimientoUsuario = () => {
  
 
   const [usuarioLista, setLista] = useState([]); // Lista para traer usuarios
@@ -36,57 +36,7 @@ const MantenimientoUsuario = ({ onClose }) => {
    });
 
  
-  
-  //CAMBIA EL VALOR DE LA COSNTANTE DE EDITCION Y TRAE LOS VALORES DEL REGISTRO QUE ESTAMOS EDITANDO A LOS CAMPOS CORRESPONDIENTES
-  const editarUsuario=(val)=> {
-    setEditar(true);
-    setUsuario=(val.usuario);
-    setContraseña=(VAL.Contraseña);
-    setNombreCompletoUsuario=(val.nombreCompletoUsuario);
-    setCorreo_Electronico=(val.Correo_electronico);
-    setPuesto=(val.puesto);
-    setRoles=(val.roles);
-  }
 
-
-  //Llamado de pantalla integral para ELIMINAR USUARIO
-  const pantallaEliminar = () => {
-    Swal.fire({
-      title: 'Eliminar Usuario',
-      text: '¿Estás seguro de que deseas eliminar este usuario?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#7300f7',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Aquí puedes llamar a la función para eliminar el usuario
-       // eliminarUsuario();
-         Swal.fire('Eliminado!', 'El usuario ha sido eliminado.', 'success');
-      }
-    });
-  };
-        
- //Llamado de pantalla integral para Ccuando el usuario se quiera salir de la ventana deseada **NO APARECE EN LA INTERFAZ**
-  const cerrarComponente = () => {
-    Swal.fire({
-      title: 'Cerrar Ventana',
-      text: '¿Estás seguro de que deseas salir?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        onClose();
-        
-      }
-    });
-  };
 
  
     //TODO LO DE AQUI SE MUESTRA EN LA INTERFAZ
@@ -129,8 +79,8 @@ const MantenimientoUsuario = ({ onClose }) => {
                   <tr>
                     <th>Usuario</th>
                     <th>Nombre Completo de Usuario</th>
-                    <th>Fecha Vencimiento De Contraseña</th>
                     <th>Correo Electronico</th>
+                    <th>Fecha Vencimiento De Contraseña</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -142,10 +92,11 @@ const MantenimientoUsuario = ({ onClose }) => {
                         <th>{val.Usuario}</th>
                         <th>{val.Nombre_Completo_Usuario}</th>
                         <th>{val.Correo_electronico}</th>
-                        <th>{val.Fecha_Ultima_Conexion}</th>
+                       {/*Método tpLocaleString(),dara formato de presentación para las fechas */}
+                        <th>{new Date(val.Fecha_ultima_conexion).toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',second:'2-digit' })}</th>
                         <td> 
                           <Link to="/EditarUsuario" className="submit icon-button">Editar</Link>
-                          <button onClick={pantallaEliminar} className="submit icon-button">Eliminar</button>
+                          <button  className="submit icon-button">Eliminar</button>
                         </td>
                       </tr>
                     );

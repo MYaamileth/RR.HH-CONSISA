@@ -78,7 +78,7 @@ router.put("/actualizarUsuario", (req, res) => {
 
 // Endpoint para obtener roles
 router.get("/obtenerRoles", (req, res) => {
-    const query = 'SELECT Rol FROM  tbl_ms_rol';
+    const query = 'SELECT Rol FROM tbl_ms_rol';
     db.query(query, (err, data) => {
       if (err) {
         return res.status(500).json({ error: err.message });
@@ -88,12 +88,14 @@ router.get("/obtenerRoles", (req, res) => {
 
 // Endpoint para obtener puestos
 router.get("/obtenerPuestos", (req, res) => {
-    const query = 'SELECT Nombre_puesto FROM  tbl_puesto';
-    db.query(query, (err, data) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
-      return res.json(data);
-    });});
+  const query = 'SELECT Nombre_puesto FROM tbl_puesto'; // Cambio aquí para que coincida con la columna esperada en el componente React
+  db.query(query, (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    return res.json(data);
+  });
+});
+
 
 export default router;
