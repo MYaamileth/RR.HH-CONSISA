@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import "./nuevoUsuario.css";
 
-const NuevoUsuario = () => {
+const NuevoUsuario = ({onClose}) => {
   const [estado, setEstado] = useState("");
   const [roles, setRoles] = useState([]);
   const [puesto, setPuesto] = useState([]);
@@ -41,8 +40,8 @@ const NuevoUsuario = () => {
         console.error("Error al obtener los roles:", error.message);
       }
     };
-
     obtenerRoles();
+
   }, []);
   //valida que el usuario seleccione un rol en el combobox(lo mismo seria para el puesto si funcionara)
   const validarRol = (event) => {
@@ -68,8 +67,8 @@ const NuevoUsuario = () => {
         console.error("Error al obtener los puestos:", error.message);
       }
     };
-
     obtenerPuesto();
+
   }, []);
   //valida que el usuario seleccione un puesto en el combobox
   const validarPuesto = (event) => {
@@ -84,7 +83,7 @@ const NuevoUsuario = () => {
     setSelectedPuesto(selectedOption);//Manda la opción seleccionada por el usuario a las variables de entorno
   };
   
-//NO LA BORRE A MENOS QUE PONGAN UNA QUE SI FUNCIOE
+//------------------ NO LA BORRE A MENOS QUE PONGAN UNA QUE SI FUNCIONE ----------------
   //VALIDACION PARA INTENTAR GUARDAR EL PUESTO(NO SIRVE, PERO TOMEN IDEA DE COMO MOMENTANEAMETNE SE PUE IR HACIENDO)
   /*const handlePuestoChange = (event) => {
     let selectedOption = event.target.value;
@@ -164,12 +163,14 @@ const NuevoUsuario = () => {
     }
   };
 
-
+  const cancelarCreacion = () => {
+    onClose(); // Llama a la función onClose pasada como prop desde MantenimientoUsuario para cerrar el modal
+  };
 
 
   return (
     <form onSubmit={creacionUsuario}className="Crear">
-      <h1 id="Titulo">CREAR USUARIO</h1>
+      <h1>CREAR USUARIO</h1>
             
         {/* Contenedor principal */}
         <div className="input-container">
@@ -360,11 +361,11 @@ const NuevoUsuario = () => {
             </div>
           </div>
 
-            <div className="form-buttons">
-                <button id="crear" type="submit" >CREAR</button>
-                
-                <button id="cancelar"  type="button">CANCELAR</button>
-              </div>
+          <div className="form-buttons">
+            <button id="crear" type="submit">CREAR</button>
+            <span className="button-spacing"></span> {/* Espacio entre botones */}
+            <button id="cancelar" type="button" onClick={cancelarCreacion}>CANCELAR</button>
+          </div>  
               
     </form>
   )

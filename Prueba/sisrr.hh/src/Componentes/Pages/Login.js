@@ -85,9 +85,9 @@ const Login = () => {
            <span>Utilice su Nombre de Usuario</span>
            <input type="text" placeholder="Usuario" maxLength="15" name="user" onInput={(e) => {const regex = /[^a-zA-Z0-9]/g;e.target.value = e.target.value.toUpperCase().replace(regex, ""); }}required/> 
            <span className="error-message"></span>
-           <div style={{ position: 'relative' }}>
-           <input type={showPassword ? "text" : "password"} placeholder="Contraseña"  maxLength="15" name="Contraseña" onChange={() => setSignUpError(false)} required />
-            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} onClick={() => setShowPassword(!showPassword)} className="eye-icon" style={{ color:"#7f24f5", position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+           <div style={{ position: 'relative', width: '100%' }}>
+           <input type={showPassword ? "text" : "password"} placeholder="Contraseña"  maxLength="15" name="Contraseña" onChange={() => setSignUpError(false)} required style={{ width: '100%' }} />
+            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} onClick={() => setShowPassword(!showPassword)} className="eye-icon" style={{ color:"#7f24f5", position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)' }} />
           </div>
           {signInError && (
             <div className="error-icon">

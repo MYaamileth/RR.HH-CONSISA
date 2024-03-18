@@ -2,7 +2,7 @@
 .Crear {
     margin-top: 50px;
     margin-bottom: 50px;
-    border-radius: 15px;
+    border-radius: 100px;
     display: flex;
     flex-direction: column;
     width: 700px; /* Cambiar el ancho según sea necesario */
@@ -57,13 +57,8 @@
     justify-content: center; /* Para alinear los botones horizontalmente */
 }
 
-/* Botones */
-[Formulario-Crear="true"] .form-buttons button {
-    margin: 0 5px; /* Espacio entre los botones */
-}
-
-.Titulo {
-    color: #9012af;
+.button-spacing {
+    margin-left: 10px; /* Ajusta este valor según la separación deseada */
 }
 
 .input-container {
