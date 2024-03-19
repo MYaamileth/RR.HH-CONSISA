@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from "react";
 import "./nuevoUsuario.css";
 
-const NuevoUsuario = () => {
+const NuevoUsuario = ({onClose}) => {
   const [estado, setEstado] = useState("");
   const [roles, setRoles] = useState([]);
-  const [puestos, setPuestos] = useState([]);
+  const [puesto, setPuesto] = useState([]);
   const [usuario, setUsuario] = useState("");
   const [nombreCompletoUsuario, setNombreCompletoUsuario] = useState("");
   const [contraseña, setContraseña] = useState("");
@@ -20,6 +19,7 @@ const NuevoUsuario = () => {
   // SELECCION DE PUESTO DE USUARIO
   const [selectedPuesto, setSelectedPuesto] = useState("");
   const [puestoErrorMessage, setPuestoErrorMessage] = useState("");
+
   const [creado_Por, setCreadoPor] = useState("");
   const [modificado_Por, setModificadoPor] = useState("");
   const [fecha_Creacion, setFechaCreacion] = useState("");
@@ -40,8 +40,8 @@ const NuevoUsuario = () => {
         console.error("Error al obtener los roles:", error.message);
       }
     };
-
     obtenerRoles();
+
   }, []);
   //valida que el usuario seleccione un rol en el combobox(lo mismo seria para el puesto si funcionara)
   const validarRol = (event) => {
@@ -56,9 +56,36 @@ const NuevoUsuario = () => {
     setSelectedRol(selectedOption);//Manda la opción seleccionada por el usuario a las variables de entorno
   };
 
-//NO LA BORRE A MENOS QUE PONGAN UNA QUE SI FUNCIOE
+  
+  useEffect(() => {
+    const obtenerPuesto = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/obtenerPuestos");
+        const data = await response.json();
+        setPuesto(data);
+      } catch (error) {
+        console.error("Error al obtener los puestos:", error.message);
+      }
+    };
+    obtenerPuesto();
+
+  }, []);
+  //valida que el usuario seleccione un puesto en el combobox
+  const validarPuesto = (event) => {
+    const selectedOption = event.target.value;
+    let errorMessage = "";
+
+    if (!selectedOption) {
+      errorMessage = "Debes seleccionar una opción de Rol";
+    }
+
+    setPuestoErrorMessage(errorMessage);
+    setSelectedPuesto(selectedOption);//Manda la opción seleccionada por el usuario a las variables de entorno
+  };
+  
+//------------------ NO LA BORRE A MENOS QUE PONGAN UNA QUE SI FUNCIONE ----------------
   //VALIDACION PARA INTENTAR GUARDAR EL PUESTO(NO SIRVE, PERO TOMEN IDEA DE COMO MOMENTANEAMETNE SE PUE IR HACIENDO)
-  const handlePuestoChange = (event) => {
+  /*const handlePuestoChange = (event) => {
     let selectedOption = event.target.value;
     setSelectedPuesto(selectedOption); // Actualiza el valor seleccionado
 
@@ -84,14 +111,14 @@ const NuevoUsuario = () => {
       }
 
     setPuestoErrorMessage(errorMessage); // Actualiza el mensaje de error
-  };
+  };*/
 
   const creacionUsuario = async (event) => {
     event.preventDefault();
     //LAS VARIBALES DEFINIDAS ACA SE DEBRIAN DE LLAMAR ABAJO, EN VEZ DE LOS UNOS QUE MANUALMENTE INSERTE
     //PERO COMO NO FUNCIONA LA PARTE DE CONVERTIR, MEJOR NO LAS USE. LA PARTE DE TRAER DATOS DEL CAMPOS ROL SI SIRVEN
     const idRolSeleccionado = roles.find((rol) => rol.Rol === selectedRol)?.Id_Rol;
-    const idPuestoSeleccionado = puestos.find((puesto) => puesto.Puesto === selectedPuesto)?.Id_puesto;
+    const idPuestoSeleccionado = puesto.find((puesto) => puesto.Puesto === selectedPuesto)?.Id_puesto;
 
     try {
       const response = await fetch("http://localhost:3001/creacionUsuario", {
@@ -107,7 +134,7 @@ const NuevoUsuario = () => {
           Usuario: usuario,
           Nombre_Completo_Usuario: nombreCompletoUsuario,
           Contraseña: contraseña,
-          Primer_ingreso: "2024-03-16", //primerIngreso,
+          Primer_ingreso: "1", //primerIngreso,
           Fecha_ultima_conexion: "2024-03-16", //fechaUltimaConexion,
           Correo_electronico: correo_Electronico,
           Fecha_vencimiento: "2024-04-16",//fechaVencimiento,
@@ -136,12 +163,14 @@ const NuevoUsuario = () => {
     }
   };
 
-
+  const cancelarCreacion = () => {
+    onClose(); // Llama a la función onClose pasada como prop desde MantenimientoUsuario para cerrar el modal
+  };
 
 
   return (
     <form onSubmit={creacionUsuario}className="Crear">
-      <h1 id="Titulo">CREAR USUARIO</h1>
+      <h1>CREAR USUARIO</h1>
             
         {/* Contenedor principal */}
         <div className="input-container">
@@ -283,17 +312,23 @@ const NuevoUsuario = () => {
           </div>
           <span className="estado-label">Activo</span>
         </div>
+
+
+
         {/* Selección de PUESTO */}
         <div className="flex-row">
         <label className="custom-label">
             Puesto:
-            <select className="inputPuesto custom-select" value={selectedPuesto}
-              onChange={handlePuestoChange}
+            <select className="inputPuesto custom-select" 
+              onChange={validarPuesto}
+              value={selectedPuesto}
             >
-              <option value="">Selecciona un puesto</option>
-              <option value="1">Gerente de IT</option>
-              <option value="2">Administrador de BD</option>
-              <option value="3">Agregar Rol</option>
+              <option value="">Selecciona un Puesto</option>
+              {puesto.map((puestoObject, index) => (
+                <option key={index} value={puestoObject.Nombre_puesto}>
+                  {puestoObject.Nombre_puesto}
+                </option>
+              ))}
             </select>
           </label>
           <span id="puestoErrorMessage" style={{ color: "red" }}>
@@ -326,11 +361,11 @@ const NuevoUsuario = () => {
             </div>
           </div>
 
-            <div className="form-buttons">
-                <button id="crear" type="submit" >CREAR</button>
-                
-                <button id="cancelar"  type="button">CANCELAR</button>
-              </div>
+          <div className="form-buttons">
+            <button id="crear" type="submit">CREAR</button>
+            <span className="button-spacing"></span> {/* Espacio entre botones */}
+            <button id="cancelar" type="button" onClick={cancelarCreacion}>CANCELAR</button>
+          </div>  
               
     </form>
   )

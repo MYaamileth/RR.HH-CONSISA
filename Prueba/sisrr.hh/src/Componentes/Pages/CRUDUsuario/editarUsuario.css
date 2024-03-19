@@ -62,11 +62,24 @@
     justify-content: center; /* Para alinear los botones horizontalmente */
 }
 
-/* Botones */
-[Formulario-Crear="true"] .form-buttons button {
-    margin: 0 5px; /* Espacio entre los botones */
+.button-spacing {
+    margin-left: 10px; /* Ajusta este valor según la separación deseada */
 }
 
-.Titulo{
-    color:#9012af;
+.input-container {
+    display: flex;
+    flex-direction: row;
 }
+
+.input-group {
+    margin-right: 10px; /* Espacio entre los grupos de input */
+    position: relative;
+}
+
+.error-message {
+    position: absolute;
+    bottom: -20px; /* Posiciona el mensaje justo debajo del input */
+    left: 0;
+    margin-bottom: 5px;
+}
+
