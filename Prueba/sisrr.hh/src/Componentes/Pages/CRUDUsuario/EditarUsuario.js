@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 // Componente funcional EditarUsuario
-const EditarUsuario = () => {
+const EditarUsuario = ({onClose}) => {
 
   // Función para sumar días a una fecha
   function sumarDias(fecha, dias) {
@@ -94,6 +94,10 @@ const EditarUsuario = () => {
       //alert("Usuario registrado")
     });
   }
+
+  const cancelarEdicion = () => {
+    onClose(); // Llama a la función onClose pasada como prop desde MantenimientoUsuario para cerrar el modal
+  };
 
   return (
     // Formulario de edición de usuario
@@ -317,11 +321,11 @@ const EditarUsuario = () => {
         </div>
       </div>
 
-        <div className="form-buttons">
-            <button id="editar">EDITAR</button>
-            
-            <button id="cancelar">CANCELAR</button>
-          </div>
+      <div className="form-buttons">
+            <button id="crear" type="submit">CREAR</button>
+            <span className="button-spacing"></span> {/* Espacio entre botones */}
+            <button id="cancelar" type="button" onClick={cancelarEdicion}>CANCELAR</button>
+      </div>  
           
     </form>
   )

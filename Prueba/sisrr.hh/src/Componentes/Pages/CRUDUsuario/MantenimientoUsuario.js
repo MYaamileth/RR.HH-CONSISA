@@ -1,13 +1,12 @@
-/* eslint-disable no-undef */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./mantenimientoUsuario.css";
-import NuevoUsuario from "./NuevoUsuario.js"; // Importa el componente NuevoUsuario
+import NuevoUsuario from "./NuevoUsuario.js";
+import EditarUsuario from "./EditarUsuario.js"; // Importar el componente EditarUsuario
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-
 
 const MantenimientoUsuario = () => {
   const [usuarioLista, setLista] = useState([]);
@@ -15,6 +14,7 @@ const MantenimientoUsuario = () => {
   const [cargando, setCargando] = useState(false);
   const [busqueda, setBusqueda] = useState("");
   const [mostrarModal, setMostrarModal] = useState(false); // Estado para controlar la visibilidad del modal
+  const [mostrarModalEdicion, setMostrarModalEdicion] = useState(false); // Estado para controlar la visibilidad del modal de edición
 
   useEffect(() => {
     const traerUsuarios = async () => {
@@ -51,6 +51,14 @@ const MantenimientoUsuario = () => {
     setMostrarModal(false);
   };
 
+  const abrirModalEdicion = () => {
+    setMostrarModalEdicion(true);
+  };
+
+  const cerrarModalEdicion = () => {
+    setMostrarModalEdicion(false);
+  };
+
   return (
     <div data-maintenance-usuario="true" className="maintenance-container">
       {cargando ? (
@@ -71,7 +79,6 @@ const MantenimientoUsuario = () => {
                   onChange={(e) => setBusqueda(e.target.value)}
                 />
               </div>
-              {/* Botón para abrir el modal */}
               <button className="submit" onClick={abrirModal}>CREAR</button>
               <button className="submit"> Generar Informe</button>
             </div>
@@ -97,10 +104,9 @@ const MantenimientoUsuario = () => {
                           <th>{new Date(val.Fecha_ultima_conexion).toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',second:'2-digit' })}</th>
                           <td> 
                             <div className="button-container">
-                              <Link to="/EditarUsuario" className="submit icon-button">
+                              <button className="submit icon-button" onClick={abrirModalEdicion}>
                                 <FontAwesomeIcon icon={faEdit} /> {/* Icono de editar */}
-                              </Link>
-
+                              </button>
                               <button className="submit icon-button">
                                 <FontAwesomeIcon icon={faTrash} /> {/* Icono de eliminar */}
                               </button>
@@ -119,7 +125,6 @@ const MantenimientoUsuario = () => {
                 </tbody>
               </table>
             </section> 
-            <script src="./Paginador.js"></script>
           </section>
           {/* Modal para el formulario de NuevoUsuario */}
           {mostrarModal && (
@@ -127,6 +132,15 @@ const MantenimientoUsuario = () => {
               <div className="modal-content">
                 <span className="close-button" onClick={cerrarModal}>&times;</span>
                 <NuevoUsuario onClose={cerrarModal} />
+              </div>
+            </div>
+          )}
+          {/* Modal para el formulario de EditarUsuario */}
+          {mostrarModalEdicion && (
+            <div className="modal-container">
+              <div className="modal-content">
+                <span className="close-button" onClick={cerrarModalEdicion}>&times;</span>
+                <EditarUsuario onClose={cerrarModalEdicion} />
               </div>
             </div>
           )}
