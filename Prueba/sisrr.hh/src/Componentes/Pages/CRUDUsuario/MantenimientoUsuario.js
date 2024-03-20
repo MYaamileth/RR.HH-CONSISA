@@ -16,6 +16,8 @@ const MantenimientoUsuario = () => {
   const [mostrarModal, setMostrarModal] = useState(false); // Estado para controlar la visibilidad del modal
   const [mostrarModalEdicion, setMostrarModalEdicion] = useState(false); // Estado para controlar la visibilidad del modal de edición
 
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null); // Estado para almacenar el usuario seleccionado
+
   useEffect(() => {
     const traerUsuarios = async () => {
       try {
@@ -51,7 +53,8 @@ const MantenimientoUsuario = () => {
     setMostrarModal(false);
   };
 
-  const abrirModalEdicion = () => {
+  const abrirModalEdicion = (userId) => {
+    setUsuarioSeleccionado(userId); // Almacenar el ID del usuario seleccionado
     setMostrarModalEdicion(true);
   };
 
@@ -104,7 +107,7 @@ const MantenimientoUsuario = () => {
                           <th>{new Date(val.Fecha_ultima_conexion).toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',second:'2-digit' })}</th>
                           <td> 
                             <div className="button-container">
-                              <button className="submit icon-button" onClick={abrirModalEdicion}>
+                            <button className="submit icon-button" onClick={() => abrirModalEdicion(val.Id_usuario)}>
                                 <FontAwesomeIcon icon={faEdit} /> {/* Icono de editar */}
                               </button>
                               <button className="submit icon-button">
@@ -140,8 +143,9 @@ const MantenimientoUsuario = () => {
             <div className="modal-container">
               <div className="modal-content">
                 <span className="close-button" onClick={cerrarModalEdicion}>&times;</span>
-                <EditarUsuario onClose={cerrarModalEdicion} />
-              </div>
+                {/* Pasar el ID del usuario al componente EditarUsuario */}
+            <EditarUsuario onClose={cerrarModalEdicion} Id_usuario={usuarioSeleccionado} />
+          </div>
             </div>
           )}
         </>

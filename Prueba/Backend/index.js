@@ -11,7 +11,7 @@ import apiRoutes from "./apiRoutes.js";
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "123456",
+  password: "1234proyecto_",
   database: "consisa",
 });
 
