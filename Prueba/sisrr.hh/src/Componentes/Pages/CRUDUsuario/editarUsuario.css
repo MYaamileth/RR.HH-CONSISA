@@ -1,4 +1,4 @@
-/* Estilo del Formulario Crear */
+/* Estilo del Formulario Editar */
 .Editar {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -30,7 +30,7 @@
 
 /* Estilos básicos del select */
 .custom-select {
-    width: 150px; /* Ancho del select */
+    width: 200px; /* Ancho del select */
     padding: 5px; /* Espacio interno alrededor del contenido */
     font-size: 12px; /* Tamaño de la fuente */
     border: 1px solid #ccc; /* Borde del select */
@@ -56,14 +56,14 @@
     margin-bottom: 10px;
 }
 
-.form-buttons {
-    margin-top: 10px;
+.form-buttons-editar {
+    margin-top: 30px;
     display: flex;
     justify-content: center; /* Para alinear los botones horizontalmente */
 }
 
 .button-spacing {
-    margin-left: 10px; /* Ajusta este valor según la separación deseada */
+    margin-left: 20px; /* Ajusta este valor según la separación deseada */
 }
 
 .input-container {

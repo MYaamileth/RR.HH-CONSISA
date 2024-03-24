@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
+import "./editarUsuario.css";
 
 
 
@@ -148,8 +149,7 @@ useEffect(() => {
             onChange={handleChange}
             maxLength={15}
           />
-        </div>
-        <div className="input-group">
+       
           <input
             name="Nombre_Completo_Usuario"
             type="text"
@@ -220,7 +220,7 @@ useEffect(() => {
           </label>
         </div>
       </div>
-      <div className="form-buttons">
+      <div className="form-buttons-editar">
         <button id="crear" type="submit" onClick={editarUsuario}>EDITAR</button>
         <span className="button-spacing"></span>
         <button id="cancelar" type="button" onClick={cancelarEdicion}>CANCELAR</button>

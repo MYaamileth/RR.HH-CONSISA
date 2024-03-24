@@ -187,9 +187,7 @@ const creacionUsuario = async (event) => {
             }}
           />
           <span className="error-message" style={{ color: "red" }}></span>
-        </div>
-
-        <div className="input-group">
+      
           <input
             onChange={(event) => {
               setNombreCompletoUsuario(event.target.value);
@@ -334,7 +332,7 @@ const creacionUsuario = async (event) => {
 
 {/*Creación de botones*/}
 
-          <div className="form-buttons">
+          <div className="form-buttons-crear">
             <button id="crear" type="submit">CREAR</button>
             <span className="button-spacing"></span> {/* Espacio entre botones */}
             <button id="cancelar" type="button" onClick={cancelarCreacion}>CANCELAR</button>
