@@ -13,8 +13,9 @@ const MantenimientoUsuario = () => {
   const [edicion, setEditar] = useState(false);
   const [cargando, setCargando] = useState(false);
   const [busqueda, setBusqueda] = useState("");
-  const [mostrarModal, setMostrarModal] = useState(false); // Estado para controlar la visibilidad del modal
+  const [mostrarModalNuevo, setMostrarModalNuevo] = useState(false); // Estado para controlar la visibilidad del modal
   const [mostrarModalEdicion, setMostrarModalEdicion] = useState(false); // Estado para controlar la visibilidad del modal de edición
+  const [mostrarModalDeshabilitar, setmostrarModalDeshabilitar] = useState(false); // Estado para controlar la visibilidad del modal de edición
 
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null); // Estado para almacenar el usuario seleccionado
 
@@ -44,23 +45,73 @@ const MantenimientoUsuario = () => {
       usuario.Nombre_Completo_Usuario.toLowerCase().includes(busqueda.toLowerCase())
     );
   });
-
+  
+  //MODAL DE CREAR
   const abrirModal = () => {
-    setMostrarModal(true);
+    setMostrarModalNuevo(true);
   };
-
   const cerrarModal = () => {
-    setMostrarModal(false);
+    setMostrarModalNuevo(false);
   };
 
+
+  //MODALES DE EDICION
   const abrirModalEdicion = (userId) => {
     setUsuarioSeleccionado(userId); // Almacenar el ID del usuario seleccionado
     setMostrarModalEdicion(true);
   };
-
   const cerrarModalEdicion = () => {
     setMostrarModalEdicion(false);
   };
+
+// Función para eliminar/deshabilitar un usuario
+const eliminarUsuario = async (idUsuario) => {
+  try {
+    const confirmacion = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas eliminar/deshabilitar el usuario?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar/deshabilitar",
+      cancelButtonText: "Cancelar",
+      allowOutsideClick: false // Evitar que se cierre haciendo clic fuera del modal
+    });
+
+    if (confirmacion.isConfirmed) {
+      // Realizar la solicitud PUT al backend para eliminar/deshabilitar el usuario
+      const response = await fetch(`http://localhost:3001/deshabilitarUsuario/${idUsuario}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        // Actualizar la lista de usuarios después de eliminar/deshabilitar
+        const updatedList = usuarioLista.filter(usuario => usuario.Id_usuario !== idUsuario);
+        setLista(updatedList);
+
+        Swal.fire({
+          title: "¡Éxito!",
+          text: "El usuario ha sido eliminado/deshabilitado correctamente.",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
+      } else {
+        throw new Error("Error en la solicitud");
+      }
+    }
+  } catch (error) {
+    console.error("Error al eliminar/deshabilitar el usuario:", error);
+    // Manejar el error aquí
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Hubo un error al eliminar/deshabilitar el usuario. Por favor, intenta de nuevo.',
+    });
+  }
+};
+
 
   return (
     <div data-maintenance-usuario="true" className="maintenance-container">
@@ -110,8 +161,8 @@ const MantenimientoUsuario = () => {
                             <button className="submit icon-button" onClick={() => abrirModalEdicion(val.Id_usuario)}>
                                 <FontAwesomeIcon icon={faEdit} /> {/* Icono de editar */}
                               </button>
-                              <button className="submit icon-button">
-                                <FontAwesomeIcon icon={faTrash} /> {/* Icono de eliminar */}
+                            <button className="submit icon-button" onClick={() => eliminarUsuario(val.Id_usuario)}>                      
+                               <FontAwesomeIcon icon={faTrash} /> {/* Icono de eliminar */}
                               </button>
                             </div>
                           </td>
@@ -130,7 +181,7 @@ const MantenimientoUsuario = () => {
             </section> 
           </section>
           {/* Modal para el formulario de NuevoUsuario */}
-          {mostrarModal && (
+          {mostrarModalNuevo && (
             <div className="modal-container">
               <div className="modal-content">
                 <span className="close-button" onClick={cerrarModal}>&times;</span>
@@ -148,6 +199,7 @@ const MantenimientoUsuario = () => {
           </div>
             </div>
           )}
+            
         </>
       )}
     </div>
@@ -155,3 +207,9 @@ const MantenimientoUsuario = () => {
 };
 
 export default MantenimientoUsuario;
+
+
+
+ 
+
+ 

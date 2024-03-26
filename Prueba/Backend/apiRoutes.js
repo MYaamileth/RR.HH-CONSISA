@@ -8,49 +8,47 @@ router.post("/creacionUsuario", async (req, res) => {
  
     // Extraer datos del cuerpo de la solicitud
     const { 
-        Id_estado, 
-        Id_rol, 
-        Id_puesto,
-        Id_empleado, 
+        Id_Estado, 
+        Id_Rol, 
+        Id_Puesto,
+        Id_Empleado, 
         Usuario, 
         Nombre_Completo_Usuario, 
         Contraseña, 
+        Primer_ingreso,
         Fecha_Ultima_Conexion, 
         Correo_electronico, 
         Fecha_vencimiento, 
         Creado_por, 
         Modificado_por, 
         Fecha_creacion, 
-        Fecha_modificacion,
-        Primer_ingreso
+        Fecha_modificacion
+       
    
     } = req.body;
-  
-    /*Validar que todos los campos requeridos estén presentes
-    if (!Id_estado || !Id_rol || !Id_puesto || !Usuario || !Contraseña || !Primer_ingreso || !Correo_electronico) {
-        return res.status(400).json({ error: "Faltan campos obligatorios" });
-    }*/
+
   
     // Crear la consulta SQL
-    const query = `INSERT INTO tbl_ms_usuario (Id_estado, Id_rol, Id_puesto,Id_empleado, Usuario, Nombre_Completo_Usuario, Contraseña, Fecha_Ultima_Conexion, Correo_electronico, Fecha_vencimiento, Creado_por, Modificado_por, Fecha_creacion, Fecha_modificacion, Primer_ingreso) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO tbl_ms_usuario (Id_Estado, Id_Rol, Id_Puesto,Id_Empleado, Usuario, Nombre_Completo_Usuario, Contraseña, Primer_ingreso, Fecha_Ultima_Conexion, Correo_electronico, Fecha_vencimiento, Creado_por, Modificado_por, Fecha_creacion, Fecha_modificacion ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   
     // Ejecutar la consulta
     db.query(query, [
-        Id_estado, 
-        Id_rol, 
-        Id_puesto, 
-        Id_empleado,
+        Id_Estado, 
+        Id_Rol, 
+        Id_Puesto, 
+        Id_Empleado,
         Usuario, 
         Nombre_Completo_Usuario, 
         Contraseña, 
+        Primer_ingreso,
         Fecha_Ultima_Conexion, 
         Correo_electronico, 
         Fecha_vencimiento, 
         Creado_por, 
         Modificado_por, 
         Fecha_creacion, 
-        Fecha_modificacion,
-        Primer_ingreso
+        Fecha_modificacion
+        
   
     ], (err, data) => {
         if (err) {
@@ -73,27 +71,6 @@ router.get("/traerUsuarios", (req, res) => {
     });
 });
 
-
-// Endpoint para obtener roles
-router.get("/obtenerRoles", (req, res) => {
-  const query = 'SELECT Id_Rol, Rol FROM tbl_ms_rol';
-  db.query(query, (err, data) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    return res.json(data);
-  });});
-
-// Endpoint para obtener puestos
-router.get("/obtenerPuestos", (req, res) => {
-const query = 'SELECT Id_puesto, Nombre_puesto FROM tbl_puesto'; // Modificado para seleccionar Id_puesto junto con Nombre_puesto
-db.query(query, (err, data) => {
-  if (err) {
-    return res.status(500).json({ error: err.message });
-  }
-  return res.json(data);
-});
-});
 
 // Endpoint para obtener un usuario específico por su ID
 router.get("/idUsuario/:id_usuario", async (req, res) => {
@@ -129,6 +106,9 @@ router.put("/editarUsuario/:id_usuario", async (req, res) => {
   try {
     const userId = req.params.id_usuario;
     const {
+      Id_Estado,
+      Id_Rol,
+      Id_Puesto,
       Usuario,
       Nombre_Completo_Usuario,
       Contraseña,
@@ -139,7 +119,10 @@ router.put("/editarUsuario/:id_usuario", async (req, res) => {
     // Construir la consulta SQL de actualización
     const query = `
       UPDATE tbl_ms_usuario 
-      SET
+      SET 
+          Id_Estado=?,
+          Id_Rol=?, 
+          Id_Puesto=?,
           Usuario = ?, 
           Nombre_Completo_Usuario = ?, 
           Contraseña = ?, 
@@ -151,6 +134,9 @@ router.put("/editarUsuario/:id_usuario", async (req, res) => {
     db.query(
       query,
       [
+        Id_Estado,
+        Id_Rol, 
+        Id_Puesto, 
         Usuario,
         Nombre_Completo_Usuario,
         Contraseña,
@@ -173,4 +159,67 @@ router.put("/editarUsuario/:id_usuario", async (req, res) => {
   }
 });
 
+// Endpoint para deshabilitar un usuario por su ID
+router.delete("/deshabilitarUsuario/:id_usuario", async (req, res) => {
+  try {
+    const userId = req.params.id_usuario;// Obtiene el ID del usuario de los parámetros de la solicitud.
+
+    // Consulta SQL para deshabilitar un usuario por su ID
+    const query = `
+      UPDATE tbl_ms_usuario 
+      SET Id_Estado = 0
+      WHERE Id_usuario = ?`; // Usar el ID del usuario en la cláusula WHERE
+
+    // Ejecutar la consulta SQL
+    db.query(
+      query,
+      [userId], // Pasar el ID del usuario como parámetro en la consulta
+      (err, result) => {
+        if (err) {
+          console.error("Error al deshabilitar usuario:", err);
+          return res.status(500).json({ error: "Error al deshabilitar usuario en la base de datos" });
+        }
+        if (result.affectedRows === 0) {
+          // Manejar el caso en que no se encuentre ningún usuario con el ID proporcionado
+          return res.status(404).json({ error: "Usuario no encontrado para deshabilitar" });
+        }
+        // Devolver un mensaje de éxito si se deshabilita el usuario correctamente
+        return res.json({ message: "Usuario deshabilitado correctamente" });
+      }
+    );
+  } catch (error) {
+    console.error("Error al deshabilitar usuario:", error);
+    return res.status(500).json({ error: "Error al deshabilitar usuario en la base de datos" });
+  }
+});
+
+
+
+
+
+//SELECT A OTROS DATOS DE OTRAS TABLAS NECESARIAS PARA EL CRUD USUARIO
+
+// Endpoint para obtener roles
+router.get("/obtenerRoles", (req, res) => {
+  const query = 'SELECT Id_Rol, Rol FROM tbl_ms_rol';
+  db.query(query, (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    return res.json(data);
+  });});
+
+// Endpoint para obtener puestos
+router.get("/obtenerPuestos", (req, res) => {
+const query = 'SELECT Id_Puesto, Nombre_puesto FROM tbl_puesto'; // Modificado para seleccionar Id_puesto junto con Nombre_puesto
+db.query(query, (err, data) => {
+  if (err) {
+    return res.status(500).json({ error: err.message });
+  }
+  return res.json(data);
+});
+});
 export default router;
+
+
+

@@ -8,7 +8,6 @@ import MantenimientoUsuario from "./Componentes/Pages/CRUDUsuario/MantenimientoU
 import Notificacion from "./Componentes/Pages/Notificacion.js";
 import NuevoUsuario from "./Componentes/Pages/CRUDUsuario/NuevoUsuario.js";
 import EditarUsuario from "./Componentes/Pages/CRUDUsuario/EditarUsuario.js";
-import EliminarUsuario from "./Componentes/Pages/CRUDUsuario/EliminarUsuario.js";
 
 
 
@@ -23,7 +22,6 @@ function App() {
           <Route path="/MantenimientoUsuario" element={<MantenimientoUsuario />} />
           <Route path="/NuevoUsuario" element={<NuevoUsuario/>} />
           <Route path="/EditarUsuario" element={<EditarUsuario/>} />
-          <Route path="/EliminarUsuario" element={<EliminarUsuario/>} />
           <Route path="/Notificacion" element={<Notificacion />} />
 
         </Routes>
