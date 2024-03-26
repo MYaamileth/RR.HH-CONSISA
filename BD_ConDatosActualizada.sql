@@ -285,7 +285,7 @@ CREATE TABLE `tbl_estado` (
 
 LOCK TABLES `tbl_estado` WRITE;
 /*!40000 ALTER TABLE `tbl_estado` DISABLE KEYS */;
-INSERT INTO `tbl_estado` VALUES (1,'Activo'),(2,'Innactivo'),(3,'Pendiente');
+INSERT INTO `tbl_estado` VALUES (0,'Innactivo'),(1,'Activo'),(2,'Vacacion');
 /*!40000 ALTER TABLE `tbl_estado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -387,7 +387,7 @@ CREATE TABLE `tbl_genero` (
 
 LOCK TABLES `tbl_genero` WRITE;
 /*!40000 ALTER TABLE `tbl_genero` DISABLE KEYS */;
-INSERT INTO `tbl_genero` VALUES (1,'Mujer'),(2,'Hombre');
+INSERT INTO `tbl_genero` VALUES (1,'Femenino'),(2,'Masculino');
 /*!40000 ALTER TABLE `tbl_genero` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -689,7 +689,7 @@ CREATE TABLE `tbl_ms_rol` (
   `Modificado_por` varchar(15) NOT NULL,
   `Fecha_modificacion` datetime NOT NULL,
   PRIMARY KEY (`Id_Rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -698,7 +698,7 @@ CREATE TABLE `tbl_ms_rol` (
 
 LOCK TABLES `tbl_ms_rol` WRITE;
 /*!40000 ALTER TABLE `tbl_ms_rol` DISABLE KEYS */;
-INSERT INTO `tbl_ms_rol` VALUES (1,'Usuario','Privilegios limitados, solo interactua con ciertas acciones del aplicativo','Marilyn Mejia','2024-03-03 00:00:00','Marilyn Mejia','2024-03-03 00:00:00'),(2,'Administrador','COn privilegios casi a su totalidad, accede a todas las acciones del aplicativo','Marilyn Mejia','2024-03-03 00:00:00','Marilyn Mejia','2024-03-03 00:00:00'),(4,'Seguridad','Define un conjunto de permisos que permiten a los usuarios hacer acciones dentro del aplicativo','Marilyn Mejia','2024-03-03 00:00:00','Marilyn Mejia','2024-03-03 00:00:00');
+INSERT INTO `tbl_ms_rol` VALUES (1,'Usuario','Privilegios limitados, solo interactua con ciertas acciones del aplicativo','Marilyn Mejia','2024-03-03 00:00:00','Marilyn Mejia','2024-03-03 00:00:00'),(2,'Administrador','COn privilegios casi a su totalidad, accede a todas las acciones del aplicativo','Marilyn Mejia','2024-03-03 00:00:00','Marilyn Mejia','2024-03-03 00:00:00'),(4,'Seguridad','Define un conjunto de permisos que permiten a los usuarios hacer acciones dentro del aplicativo','Marilyn Mejia','2024-03-03 00:00:00','Marilyn Mejia','2024-03-03 00:00:00'),(5,'Seguridad','Define los permisos que controlan qué acciones puede realizar un usuario dentro del sistema','Marilyn Mejia','2024-03-19 00:00:00','Marilyn Mejia','2024-03-19 00:00:00');
 /*!40000 ALTER TABLE `tbl_ms_rol` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -711,10 +711,10 @@ DROP TABLE IF EXISTS `tbl_ms_usuario`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tbl_ms_usuario` (
   `Id_usuario` int NOT NULL AUTO_INCREMENT,
-  `Id_estado` int DEFAULT NULL,
-  `Id_rol` int DEFAULT NULL,
+  `Id_Estado` int NOT NULL,
+  `Id_Rol` int NOT NULL,
   `Id_Puesto` int DEFAULT NULL,
-  `Id_empleado` int DEFAULT NULL,
+  `Id_Empleado` int DEFAULT NULL,
   `Usuario` varchar(15) DEFAULT NULL,
   `Nombre_Completo_Usuario` varchar(40) DEFAULT NULL,
   `Contraseña` varchar(20) DEFAULT NULL,
@@ -728,15 +728,15 @@ CREATE TABLE `tbl_ms_usuario` (
   `Fecha_creacion` datetime NOT NULL,
   `Fecha_modificacion` datetime NOT NULL,
   PRIMARY KEY (`Id_usuario`),
-  KEY `FK_usuario_rol_idx` (`Id_rol`),
+  KEY `FK_usuario_rol_idx` (`Id_Rol`),
   KEY `Fk_usuario_puesto_idx` (`Id_Puesto`),
-  KEY `FK_usuario_empleado_idx` (`Id_empleado`),
-  KEY `FK_usuario_estado_idx` (`Id_estado`),
-  CONSTRAINT `FK_usuario_empleado` FOREIGN KEY (`Id_empleado`) REFERENCES `tbl_empleado` (`Id_Empleado`),
-  CONSTRAINT `FK_usuario_estado` FOREIGN KEY (`Id_estado`) REFERENCES `tbl_estado` (`Id_Estado`),
-  CONSTRAINT `Fk_usuario_puesto` FOREIGN KEY (`Id_Puesto`) REFERENCES `tbl_puesto` (`Id_Puesto`),
-  CONSTRAINT `FK_usuario_rol` FOREIGN KEY (`Id_rol`) REFERENCES `tbl_ms_rol` (`Id_Rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FK_usuario_empleado_idx` (`Id_Empleado`),
+  KEY `FK_usuario_estado_idx` (`Id_Estado`),
+  CONSTRAINT `FK_usuario_empleado` FOREIGN KEY (`Id_Empleado`) REFERENCES `tbl_empleado` (`Id_Empleado`),
+  CONSTRAINT `FK_usuario_estado` FOREIGN KEY (`Id_Estado`) REFERENCES `tbl_estado` (`Id_Estado`),
+  CONSTRAINT `FK_usuario_puesto` FOREIGN KEY (`Id_Puesto`) REFERENCES `tbl_puesto` (`Id_Puesto`),
+  CONSTRAINT `FK_usuario_rol` FOREIGN KEY (`Id_Rol`) REFERENCES `tbl_ms_rol` (`Id_Rol`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -745,7 +745,7 @@ CREATE TABLE `tbl_ms_usuario` (
 
 LOCK TABLES `tbl_ms_usuario` WRITE;
 /*!40000 ALTER TABLE `tbl_ms_usuario` DISABLE KEYS */;
-INSERT INTO `tbl_ms_usuario` VALUES (1,1,1,1,1,'MARILYNMEJIA','Marilyn Yamileth Mejia Aguilar','123','2024-03-03 00:00:00','2024-03-03 00:00:00','mymejiaa@unah.hn','2024-04-03 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-03 00:00:00','2024-03-03 00:00:00'),(2,1,1,3,2,'ELANDAVID','Elan Daniel David Romero','1234','2024-03-02 00:00:00','2024-03-03 00:00:00','elan.davi@unah.hn','2024-04-03 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-03 00:00:00','2024-03-03 00:00:00'),(3,1,2,1,1,'ADMINROCKETMIND','AdministradorRocketMind','rockentmind_Consisa1','2024-03-14 00:00:00','2024-03-14 00:00:00','marilynyamilethmejia@gmail.com ','2024-04-14 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-14 00:00:00','2024-03-14 00:00:00'),(8,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(9,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(10,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(11,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(12,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(13,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(14,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(15,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(16,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(17,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(18,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(19,1,1,1,NULL,'MARILYN','Marilyn Mejia Aguilar','pa$$worD1','2024-03-15 00:00:00','2024-03-15 00:00:00','marilyn@gmail.com','2024-04-15 00:00:00',NULL,'Mary Mejia','Mary Mejia','2024-03-15 00:00:00','2024-03-15 00:00:00'),(20,1,1,NULL,NULL,'EDWINCERRATO','Edwin Fernando Cerrato Martinez','PODCAST@74','2024-03-16 00:00:00',NULL,'EDWINN@gmail.com ','2024-04-16 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-16 00:00:00','2024-03-16 00:00:00'),(21,1,1,NULL,NULL,'EDWINCERRATO','Edwin Fernando Cerrato Martinez','PODCAST@74','2024-03-16 00:00:00',NULL,'EDWINN@gmail.com ','2024-04-16 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-16 00:00:00','2024-03-16 00:00:00');
+INSERT INTO `tbl_ms_usuario` VALUES (1,0,1,2,1,'MARILYNYAMILETH','Marilyn Yamileth Mejia Aguilar','213232323','2024-03-03 00:00:00','2024-03-03 00:00:00','mymejiaa@gmail.com','2024-04-03 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-03 00:00:00','2024-03-03 00:00:00'),(2,0,1,3,2,'ELANDAVID','Elan Daniel David Romero','1234','2024-03-02 00:00:00','2024-03-03 00:00:00','elan.davi@unah.hn','2024-04-03 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-03 00:00:00','2024-03-03 00:00:00'),(3,1,2,1,1,'ADMINROCKETMIND','AdministradorRocketMind','rockentmind_Consisa1','2024-03-14 00:00:00','2024-03-14 00:00:00','marilynyamilethmejia@gmail.com ','2024-04-14 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-14 00:00:00','2024-03-14 00:00:00'),(35,1,4,1,1,'MARITZA','Maritza Domingez','123@olmanA',NULL,NULL,'Mary@gmail.com','2024-02-12 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-16 00:00:00','2024-03-16 00:00:00'),(36,1,4,1,1,'MARITZA','Maritza Domingez','123@olmanA',NULL,NULL,'Mary@gmail.com','2024-02-12 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-16 00:00:00','2024-03-16 00:00:00'),(37,1,4,3,1,'MARITZA','Maritza Mejia','123@olmanA',NULL,NULL,'Mary@gmail.com','2024-02-12 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-16 00:00:00','2024-03-16 00:00:00'),(39,1,4,1,1,'MARIA','Maria Carmina Mejia','00ytASASASASASAS',NULL,NULL,'mariagmail.com','2024-02-12 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-16 00:00:00','2024-03-16 00:00:00'),(40,1,4,3,1,'MARIA','Maria Carmina Mejia','00ytASASASASASAS',NULL,NULL,'mariagmail.com','2024-02-12 00:00:00',NULL,'Marilyn Mejia','Marilyn Mejia','2024-03-16 00:00:00','2024-03-16 00:00:00');
 /*!40000 ALTER TABLE `tbl_ms_usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1097,4 +1097,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-19  1:53:00
+-- Dump completed on 2024-03-26  1:15:18
