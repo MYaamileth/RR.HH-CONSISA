@@ -1,4 +1,3 @@
-// InicioSesion.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -9,56 +8,44 @@ import "./login.css";
 const InicioSesion = () => {
   const navigate = useNavigate();
 
-  // Valores Iniciales de los input
-  const [body, setBody] = useState({ username: "", password: "" });
+  // Valores Iniciales de los inputs
+  const [usuario, setUsuario] = useState("");
+  const [contraseña, setContraseña] = useState("");
+  const [error, setError] = useState(null); // Nuevo estado para manejar errores
 
-  // Controla lo que cambia en el input
-  const inputChange = ({ target }) => {
-    // Extrae constantes de la propiedad Target
-    const { name, value } = target;
-    setBody({
-      ...body,
-      [name]: value,
-    });
+  // Controla lo que cambia en el input de usuario
+  const handleUsuarioChange = (e) => {
+    const { value } = e.target;
+    setUsuario(value.toUpperCase().replace(/[^a-zA-Z0-9]/g, ""));
   };
 
-  // Enviar los valores del estado
-  const onSubmit = (e) => {
+  // Controla lo que cambia en el input de contraseña
+  const handleContraseñaChange = (e) => {
+    const { value } = e.target;
+    setContraseña(value);
+  };
+
+  // Enviar los valores del estado al servidor para iniciar sesión
+  const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/api/login", body)
+      .post("http://localhost:3001/iniciodesesio/iniciarSesion", { Usuario: usuario, Contraseña: contraseña })
       .then(({ data }) => {
+        // Si la solicitud es exitosa, redirige al usuario a la página de inicio
         navigate("/Inicio");
       })
       .catch(({ response }) => {
-        console.log(response.data);
+        // Si hay un error en la solicitud, muestra un mensaje de error
+        setError("Usuario o contraseña incorrectos");
       });
   };
 
-  const [signInError, setSignInError] = useState(false);
+  // Estado para manejar la visibilidad de la contraseña
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleRecuperacionContraseña = (e) => {
-    e.preventDefault();
-    navigate("/RecuperacionContraseña");
-  };
-
-  const handleSignIn = (e) => {
-    e.preventDefault();
-    const user = e.target.querySelector('input[name="username"]').value;
-    // Validación de inicio de sesión
-    if (!user) {
-      setSignInError(true);
-      return;
-    }
-    console.log("Iniciar sesión con:", user);
-    setSignInError(false);
-    navigate("/Inicio");
-  };
 
   return (
     <div className="form-container sign-in-container">
-      <form action="#" onSubmit={handleSignIn}>
+      <form onSubmit={handleSubmit}>
         <h1>Iniciar Sesión</h1>
         <span>Utilice su Nombre de Usuario</span>
         <input
@@ -66,13 +53,8 @@ const InicioSesion = () => {
           placeholder="USUARIO"
           maxLength="15"
           required
-          onInput={(e) => {
-            const regex = /[^a-zA-Z0-9]/g;
-            e.target.value = e.target.value.toUpperCase().replace(regex, "");
-          }}
-          value={body.username}
-          onChange={inputChange}
-          name="username"
+          value={usuario}
+          onChange={handleUsuarioChange}
         />
         <div style={{ position: "relative", width: "100%" }}>
           <input
@@ -81,13 +63,12 @@ const InicioSesion = () => {
             maxLength="15"
             required
             style={{ width: "100%" }}
-            value={body.password}
-            onChange={inputChange}
-            name="password"
+            value={contraseña}
+            onChange={handleContraseñaChange}
           />
           <FontAwesomeIcon
             icon={showPassword ? faEye : faEyeSlash}
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={() => setShowPassword(!showPassword)} // Cambia la visibilidad de la contraseña
             className="eye-icon"
             style={{
               color: "#7f24f5",
@@ -98,17 +79,15 @@ const InicioSesion = () => {
             }}
           />
         </div>
-        {signInError && (
-          <div className="error-icon">
-            <FontAwesomeIcon icon={faExclamationTriangle} />
+        {error && (
+          <div className="error-message">
+            <FontAwesomeIcon icon={faExclamationTriangle} /> {error}
           </div>
         )}
-        <a href="#" onClick={handleRecuperacionContraseña}>
+        <a href="#" onClick={() => navigate("/RecuperacionContraseña")}>
           ¿Olvidó su contraseña?
         </a>
-        <button type="submit" onClick={onSubmit}>
-          Iniciar sesión
-        </button>
+        <button type="submit">Iniciar sesión</button>
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
 import express from "express";
 import db from "./index.js"; 
 
+
 const router = express.Router();
 
 // Endpoint para crear un nuevo usuario
@@ -190,6 +191,46 @@ router.delete("/deshabilitarUsuario/:id_usuario", async (req, res) => {
   } catch (error) {
     console.error("Error al deshabilitar usuario:", error);
     return res.status(500).json({ error: "Error al deshabilitar usuario en la base de datos" });
+  }
+});
+
+
+//SELEC PARA LOGIN 
+// Endpoint para obtener usuario contraseña y etc..
+
+// Importar el módulo de bcrypt para encriptar la contraseña
+// Endpoint para iniciar sesión
+router.post("/iniciodesesio/iniciarSesion", async (req, res) => {
+  try {
+    // Obtener el nombre de usuario y la contraseña del cuerpo de la solicitud
+    const { Usuario, Contraseña } = req.body;
+
+    // Validar si el nombre de usuario y la contraseña están vacíos
+    if (!Usuario || !Contraseña) {
+      return res.status(400).json({ error: "Nombre de usuario o contraseña vacíos" });
+    }
+
+    // Buscar el usuario en la base de datos por nombre de usuario y contraseña
+    const query = `SELECT * FROM tbl_ms_usuario WHERE Usuario = ? AND Contraseña = ? AND Id_Estado = 1`;
+    db.query(query, [Usuario, Contraseña], async (err, data) => {
+      if (err) {
+        console.error("Error al buscar usuario:", err);
+        return res.status(500).json({ error: "Error al iniciar sesión" });
+      }
+
+      // Si no se encuentra el usuario, retornar un error
+      if (data.length === 0) {
+        return res.status(401).json({ error: "Usuario no encontrado o inactivo" });
+      }
+
+      // Si se encuentra el usuario, iniciar sesión correctamente
+      // Aquí puedes redirigir al usuario a otra página o mostrar un mensaje de éxito.
+
+      return res.json({ message: "Inicio de sesión correcto" });
+    });
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error);
+    return res.status(500).json({ error: "Error al iniciar sesión" });
   }
 });
 

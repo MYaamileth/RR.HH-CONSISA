@@ -11,7 +11,7 @@ import apiRoutes from "./apiRoutes.js";
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "123456",
+  password: "1234",
   database: "consisa",
 });
 
@@ -43,30 +43,6 @@ const port = 3001;
 app.listen(port, () => {
   console.log(`Servidor backend conectado en el puerto ${port}`);
 });
-
-//Nueva Ruta (POST)
-app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
-  const values = [username, password];
-  var connection = mysql.createConnection(db);
-  connection.query("SELECT * FROM tbl_ms_usuario WHERE Usuario = ? AND Contraseña = ?", values, (err, result) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      if (result.length > 0) {
-        res.status(200).send({
-          "Id_Usuario": result[0].Id_Usuario,
-          "Usuario": result[0].Usuario,
-          "Nombre_Completo_Usuario" : result[0].Nombre_Completo_Usuario
-        });
-      } else {
-        res.status(400).send('Usuario No Encontrado');
-      }
-    }
-  });
-  connection.end()
-});
-
 
 
 export default db;
